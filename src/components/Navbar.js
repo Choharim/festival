@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BiCalendarHeart } from "react-icons/bi";
 import { FaCloudRain } from "react-icons/fa";
 
 const Navbar = () => {
+  const WEATHER_KEY = process.env.REACT_APP_WEATHER_KEY;
+
+  const getWeather = async (lat, lon) => {
+    const weather = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_KEY}&units=metric`
+    )
+      .then((resp) => resp.json())
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+  useEffect(() => {
+    const getGeolocation = async () => {
+      await navigator.geolocation.getCurrentPosition(
+        (data) => getWeather(data.coords.latitude, data.coords.longitude),
+        () => console.log("error")
+      );
+    };
+
+    getGeolocation();
+  }, []);
+
+  // console.log(geo);
+  //console.log(geolocationObj);
   return (
     <NavbarContainer>
       <Logo>어디갈까?</Logo>
