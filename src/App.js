@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
+import { useObserver } from "mobx-react";
+import useStore from "./useStore";
 
-function App() {
-  const [festivalData, setFestivalData] = useState([]);
+const App = () => {
+  const { FavoriteStore, FestivalStore } = useStore();
 
   useEffect(() => {
     const API_KEY = process.env.REACT_APP_API_KEY;
@@ -19,14 +21,15 @@ function App() {
         .then((res) => {
           return res.data.response.body.items.item;
         });
-      setFestivalData(festival);
+      FestivalStore.setFestival(festival);
     };
 
     getFestivalData();
-  }, []);
+  }, [FestivalStore]);
 
-  console.log(festivalData);
-  return <div className="App">start</div>;
-}
+  console.log(FestivalStore.festival);
+
+  return useObserver(() => <div className="App"></div>);
+};
 
 export default App;
