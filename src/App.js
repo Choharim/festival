@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useObserver } from "mobx-react";
-import useStore from "./useStore";
+import useStore from "useStore";
+import HomePage from "pages/Home/index";
 
 const App = () => {
   const { FavoriteStore, FestivalStore } = useStore();
@@ -27,9 +28,11 @@ const App = () => {
     getFestivalData();
   }, [FestivalStore]);
 
-  console.log(FestivalStore.festival);
-
-  return useObserver(() => <div className="App"></div>);
+  return useObserver(() => (
+    <div className="App">
+      <HomePage />
+    </div>
+  ));
 };
 
 export default App;
