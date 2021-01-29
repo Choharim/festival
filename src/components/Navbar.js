@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BiCalendarHeart } from "react-icons/bi";
-import { FaCloudRain } from "react-icons/fa";
+import { FaCloudRain, FaCloud, FaRegSnowflake } from "react-icons/fa";
+import { FiSun } from "react-icons/fi";
+import { IoIosThunderstorm } from "react-icons/io";
 
 const Navbar = () => {
   const WEATHER_KEY = process.env.REACT_APP_WEATHER_KEY;
+  const [weather, setWeather] = useState("");
+  const [weatherLoading, setWeatherLoading] = useState(false);
 
   const getWeather = async (lat, lon) => {
-    const weather = await fetch(
+    await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_KEY}&units=metric`
     )
       .then((resp) => resp.json())
       .then((res) => {
-        console.log(res);
+        setWeather(res.weather[0].description);
+        setWeatherLoading(true);
       });
   };
 
@@ -27,13 +32,27 @@ const Navbar = () => {
     getGeolocation();
   }, []);
 
-  // console.log(geo);
-  //console.log(geolocationObj);
+  const weatherIcon = () => {
+    if (weatherLoading) {
+      if (weather.includes("clear")) {
+        return <Sun />;
+      } else if (weather.includes("rain")) {
+        return <Rain />;
+      } else if (weather.includes("clouds") || weather.includes("mist")) {
+        return <Cloud />;
+      } else if (weather.includes("snow")) {
+        return <Snow />;
+      } else {
+        return <Thunder />;
+      }
+    }
+  };
+
   return (
     <NavbarContainer>
       <Logo>어디갈까?</Logo>
       <div>
-        <WeatherIcon />
+        {weatherIcon()}
         <FavIcon />
       </div>
     </NavbarContainer>
@@ -57,10 +76,36 @@ const Logo = styled.span`
   font-size: 23px;
 `;
 
-const WeatherIcon = styled(FaCloudRain)`
+const Rain = styled(FaCloudRain)`
   font-size: 23px;
   margin-right: 20px;
+  color: #37a7d8;
 `;
+
+const Cloud = styled(FaCloud)`
+  font-size: 23px;
+  margin-right: 20px;
+  color: #3656b2;
+`;
+
+const Snow = styled(FaRegSnowflake)`
+  font-size: 23px;
+  margin-right: 20px;
+  color: #e1e7f6;
+`;
+
+const Thunder = styled(IoIosThunderstorm)`
+  font-size: 23px;
+  margin-right: 20px;
+  color: #78787a;
+`;
+
+const Sun = styled(FiSun)`
+  font-size: 23px;
+  margin-right: 20px;
+  color: #f63838;
+`;
+
 const FavIcon = styled(BiCalendarHeart)`
   font-size: 23px;
 `;
