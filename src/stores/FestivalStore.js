@@ -1,9 +1,9 @@
 import { observable } from "mobx";
 
 const FestivalStore = observable({
-  festival: [],
-  setFestival(festival) {
-    this.festival = festival;
+  festivals: [],
+  setFestivals(festivals) {
+    this.festivals = festivals;
   },
 });
 
