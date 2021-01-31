@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Navbar from "components/Navbar";
+import Navbar from "components/frame/Navbar";
 
 const Frame = ({ children }) => {
   const [height, setHeight] = useState(0);

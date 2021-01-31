@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import WeatherModal from "./WeatherModal";
 import styled, { css } from "styled-components";
 import { FaCloudRain, FaCloud, FaRegSnowflake, FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
@@ -10,7 +11,8 @@ const Navbar = () => {
   const WEATHER_KEY = process.env.REACT_APP_WEATHER_KEY;
 
   const [showNav, setShowNav] = useState(false);
-  const [weather, setWeather] = useState("");
+  const [showWeather, setShowWeather] = useState(false);
+  const [weather, setWeather] = useState({});
   const [weatherLoading, setWeatherLoading] = useState(false);
 
   const getWeather = async (lat, lon) => {
@@ -19,45 +21,57 @@ const Navbar = () => {
     )
       .then((resp) => resp.json())
       .then((res) => {
-        setWeather(res.weather[0].description);
+        console.log(res);
+        setWeather(res);
         setWeatherLoading(true);
       });
   };
+  const getGeolocation = async () => {
+    await navigator.geolocation.getCurrentPosition(
+      (data) => {
+        getWeather(data.coords.latitude, data.coords.longitude);
+      },
+      () => console.log("error")
+    );
+  };
 
   useEffect(() => {
-    const getGeolocation = async () => {
-      await navigator.geolocation.getCurrentPosition(
-        (data) => getWeather(data.coords.latitude, data.coords.longitude),
-        () => console.log("error")
-      );
-    };
-
     getGeolocation();
   }, []);
 
   const weatherIcon = () => {
     if (weatherLoading) {
-      if (weather.includes("clear")) {
+      if (weather.weather[0].main.includes("clear")) {
         return <Sun />;
-      } else if (weather.includes("rain")) {
+      } else if (weather.weather[0].main.includes("rain")) {
         return <Rain />;
-      } else if (weather.includes("clouds") || weather.includes("mist")) {
-        return <Cloud />;
-      } else if (weather.includes("snow")) {
+      } else if (weather.weather[0].main.includes("snow")) {
         return <Snow />;
-      } else {
+      } else if (weather.weather[0].main.includes("thunderstorm")) {
         return <Thunder />;
+      } else {
+        return <Cloud />;
       }
     } else {
-      return <Weather>위치를 켜주세요</Weather>;
+      return <Weather>위치를 켜주세요!</Weather>;
     }
   };
 
   return (
     <>
       <NavbarContainer>
-        <Logo>어디갈까?</Logo>
-        <NavBar onClick={() => setShowNav(true)} />
+        <span>어디갈까?</span>
+        <WeatherBox>
+          <Weather
+            onClick={() => {
+              setShowWeather(true);
+              setShowNav(false);
+            }}
+          >
+            오늘의 날씨
+          </Weather>
+          <NavBar onClick={() => setShowNav(true)} />
+        </WeatherBox>
       </NavbarContainer>
       <NavBarBox showNav={showNav}>
         <CloseBtn onClick={() => setShowNav(false)} />
@@ -68,10 +82,24 @@ const Navbar = () => {
           <Link to="/logIn">로그인</Link>
         </UrlBox>
         <WeatherBox>
-          {weatherLoading && <Weather>오늘의 날씨</Weather>}
+          {weatherLoading && (
+            <Weather
+              onClick={() => {
+                setShowNav(false);
+                setShowWeather(true);
+              }}
+            >
+              오늘의 날씨
+            </Weather>
+          )}
           {weatherIcon()}
         </WeatherBox>
       </NavBarBox>
+      <WeatherModal
+        setShowWeather={setShowWeather}
+        showWeather={showWeather}
+        weather={weather}
+      />
     </>
   );
 };
@@ -84,17 +112,13 @@ const NavbarContainer = styled.div`
   justify-content: space-between;
   width: calc(100% - 40px);
   padding: 20px;
+  font-size: 23px;
+  font-family: "Stylish", sans-serif;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 `;
 
-const Logo = styled.span`
-  font-family: "Stylish", sans-serif;
-  font-size: 23px;
-`;
-
 const NavBar = styled(FaBars)`
-  font-size: 23px;
   margin-right: 20px;
   cursor: pointer;
 `;
@@ -150,7 +174,9 @@ const WeatherBox = styled.div`
 `;
 
 const Weather = styled.span`
-  margin-right: 10px;
+  margin-right: 15px;
+  font-size: 18px;
+  cursor: pointer;
 `;
 
 const Rain = styled(FaCloudRain)`
