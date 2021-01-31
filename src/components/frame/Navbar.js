@@ -113,7 +113,6 @@ const NavbarContainer = styled.div`
   width: calc(100% - 40px);
   padding: 20px;
   font-size: 23px;
-  font-family: "Stylish", sans-serif;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 `;
@@ -131,7 +130,7 @@ const NavBarBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 300px;
+  width: calc(300px - 40px);
   height: calc(100% - 40px);
   padding: 20px;
   visibility: hidden;
@@ -148,10 +147,6 @@ const NavBarBox = styled.div`
   background-color: #fff;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   font-size: 23px;
-  > div,
-  span {
-    font-family: "Stylish", sans-serif;
-  }
 `;
 
 const CloseBtn = styled(AiOutlineClose)`
