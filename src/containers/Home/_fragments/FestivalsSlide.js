@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
+import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 
 const FestivalsSlide = ({ festivals }) => {
   const { FavoriteStore } = useStore();
@@ -26,6 +27,13 @@ const FestivalsSlide = ({ festivals }) => {
       <FestivalsContainer {...settings}>
         {festivals.map((each) => (
           <FestivalCard key={each.id} bg={each.image2}>
+            {FavoriteStore.favorite.some((ele) => ele === each.title) ? (
+              <FillBookMark
+                onClick={() => FavoriteStore.getFavorite(each.title)}
+              />
+            ) : (
+              <BookMark onClick={() => FavoriteStore.getFavorite(each.title)} />
+            )}
             <Name>{each.title}</Name>
           </FestivalCard>
         ))}
@@ -66,6 +74,7 @@ const FestivalCard = styled.button`
   justify-content: center;
   align-items: center;
   height: 300px;
+  position: relative;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(${(props) => props.bg});
   background-size: cover;
@@ -73,9 +82,26 @@ const FestivalCard = styled.button`
   outline: none;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const Name = styled.span`
   font-size: 23px;
+  color: #fff;
+`;
+
+const BookMark = styled(BsBookmark)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  color: #fff;
+`;
+
+const FillBookMark = styled(BsFillBookmarkFill)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
   color: #fff;
 `;
