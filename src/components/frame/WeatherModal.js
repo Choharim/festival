@@ -24,7 +24,10 @@ const WeatherModal = ({ showWeather, setShowWeather, weather }) => {
 
   return (
     <Bg showWeather={showWeather} onClick={() => setShowWeather(false)}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+      <ModalContainer
+        showWeather={showWeather}
+        onClick={(e) => e.stopPropagation()}
+      >
         <CloseBtn onClick={() => setShowWeather(false)} />
         <Title>오늘의 날씨</Title>
         {Object.keys(weather).length !== 0 ? (
@@ -85,12 +88,19 @@ const ModalContainer = styled.div`
   border-radius: 15px;
   background-color: #fff;
   z-index: 100;
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
   transition: 0.4s ease;
   > div {
     transition: 0.4s ease;
   }
+
+  ${(props) =>
+    props.showWeather &&
+    css`
+      opacity: 1;
+      visibility: visible;
+    `}
 `;
 
 const CloseBtn = styled(AiOutlineClose)`

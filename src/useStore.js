@@ -1,8 +1,7 @@
 import { FavoriteStore } from "stores/FavoriteStore";
-import { FestivalStore } from "stores/FestivalStore";
 
 const useStore = () => {
-  return { FavoriteStore, FestivalStore };
+  return { FavoriteStore };
 };
 
 export default useStore;

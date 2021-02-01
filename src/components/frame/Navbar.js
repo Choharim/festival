@@ -21,7 +21,6 @@ const Navbar = () => {
     )
       .then((resp) => resp.json())
       .then((res) => {
-        console.log(res);
         setWeather(res);
         setWeatherLoading(true);
       });
