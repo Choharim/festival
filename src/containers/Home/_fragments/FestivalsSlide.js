@@ -15,6 +15,7 @@ const FestivalsSlide = ({ festivals }) => {
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
+    centerMode: true,
     autoplaySpeed: 1500,
     pauseOnHover: true,
   };
@@ -39,17 +40,25 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  overflow: hidden;
 `;
 
 const Title = styled.span`
-  font-size: 23px;
+  font-size: 28px;
   margin-left: 20px;
 `;
 
 const FestivalsContainer = styled(Slider)`
   display: flex;
   width: 100%;
-  margin: 10px 0;
+  margin: 20px 0;
+
+  .slick-list {
+    margin: 0 -10px;
+  }
+  .slick-slide > div {
+    padding: 0 10px;
+  }
 `;
 
 const FestivalCard = styled.button`
@@ -57,12 +66,13 @@ const FestivalCard = styled.button`
   justify-content: center;
   align-items: center;
   height: 300px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(${(props) => props.bg});
   background-size: cover;
   background-position: center;
   outline: none;
   border: none;
+  border-radius: 10px;
 `;
 
 const Name = styled.span`
