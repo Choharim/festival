@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { set } from "mobx";
 
 const Roulette = ({ festivals }) => {
   const randomNumber = Math.floor(Math.random() * festivals.length);
@@ -34,42 +33,44 @@ const Roulette = ({ festivals }) => {
 
   return (
     <RecommendWap>
-      <RouletteContainer>
-        <Text>오늘은</Text>
-        {rouletteArray.length === festivals.length + 1 && (
-          <Slider {...settings}>
-            {rouletteArray.map((each, index) => (
-              <Name key={index}>{each.title}</Name>
-            ))}
-          </Slider>
-        )}
-        <Text>어때요?</Text>
-        <RouletteBtn
-          onClick={() => {
-            startRoulette();
-            setMove(true);
-          }}
-        >
-          Click !
-        </RouletteBtn>
-      </RouletteContainer>
-      <DesContainer visible={!move}>
-        <Img
-          visible={!move}
-          bg={rouletteArray[rouletteArray.length - 1].image1}
-        />
-        <TextContainer>
-          <Text>{rouletteArray[rouletteArray.length - 1].subTitle}</Text>
-          <DesWrap>
-            <Des>
-              {rouletteArray[rouletteArray.length - 1].startDate} ~ {""}
-              {rouletteArray[rouletteArray.length - 1].endDate}
-            </Des>
-            <Des>{rouletteArray[rouletteArray.length - 1].time}</Des>
-            <Des>{rouletteArray[rouletteArray.length - 1].address}</Des>
-          </DesWrap>
-        </TextContainer>
-      </DesContainer>
+      {rouletteArray.length === festivals.length + 1 && (
+        <>
+          <RouletteContainer>
+            <Text>오늘은</Text>
+            <Slider {...settings}>
+              {rouletteArray.map((each, index) => (
+                <Name key={index}>{each.title}</Name>
+              ))}
+            </Slider>
+            <Text>어때요?</Text>
+            <RouletteBtn
+              onClick={() => {
+                startRoulette();
+                setMove(true);
+              }}
+            >
+              Click !
+            </RouletteBtn>
+          </RouletteContainer>
+          <DesContainer visible={!move}>
+            <Img
+              visible={!move}
+              bg={rouletteArray[rouletteArray.length - 1].image1}
+            />
+            <TextContainer>
+              <Text>{rouletteArray[rouletteArray.length - 1].subTitle}</Text>
+              <DesWrap>
+                <Des>
+                  {rouletteArray[rouletteArray.length - 1].startDate} ~ {""}
+                  {rouletteArray[rouletteArray.length - 1].endDate}
+                </Des>
+                <Des>{rouletteArray[rouletteArray.length - 1].time}</Des>
+                <Des>{rouletteArray[rouletteArray.length - 1].address}</Des>
+              </DesWrap>
+            </TextContainer>
+          </DesContainer>
+        </>
+      )}
     </RecommendWap>
   );
 };

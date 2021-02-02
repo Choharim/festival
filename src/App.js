@@ -2,6 +2,7 @@ import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import HomePage from "pages/Home/index";
+import FestivalsPage from "pages/Festivals/index";
 
 const App = () => {
   return (
@@ -11,6 +12,9 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             <HomePage />
+          </Route>
+          <Route path="/festivals" exact>
+            <FestivalsPage />
           </Route>
         </Switch>
       </Router>

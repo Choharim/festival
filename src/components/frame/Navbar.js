@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import WeatherModal from "./WeatherModal";
 import styled, { css } from "styled-components";
 import { FaCloudRain, FaCloud, FaRegSnowflake, FaBars } from "react-icons/fa";
@@ -8,33 +8,34 @@ import { FiSun } from "react-icons/fi";
 import { IoIosThunderstorm } from "react-icons/io";
 
 const Navbar = () => {
-  const WEATHER_KEY = process.env.REACT_APP_WEATHER_KEY;
-
   const [showNav, setShowNav] = useState(false);
   const [showWeather, setShowWeather] = useState(false);
   const [weather, setWeather] = useState({});
   const [weatherLoading, setWeatherLoading] = useState(false);
-
-  const getWeather = async (lat, lon) => {
-    await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_KEY}&units=metric`
-    )
-      .then((resp) => resp.json())
-      .then((res) => {
-        setWeather(res);
-        setWeatherLoading(true);
-      });
-  };
-  const getGeolocation = async () => {
-    await navigator.geolocation.getCurrentPosition(
-      (data) => {
-        getWeather(data.coords.latitude, data.coords.longitude);
-      },
-      () => console.log("error")
-    );
-  };
+  const history = useHistory();
 
   useEffect(() => {
+    const WEATHER_KEY = process.env.REACT_APP_WEATHER_KEY;
+
+    const getWeather = async (lat, lon) => {
+      await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_KEY}&units=metric`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          setWeather(res);
+          setWeatherLoading(true);
+        });
+    };
+    const getGeolocation = async () => {
+      await navigator.geolocation.getCurrentPosition(
+        (data) => {
+          getWeather(data.coords.latitude, data.coords.longitude);
+        },
+        () => console.log("error")
+      );
+    };
+
     getGeolocation();
   }, []);
 
@@ -59,7 +60,9 @@ const Navbar = () => {
   return (
     <>
       <NavbarContainer>
-        <span>어디갈까?</span>
+        <span onClick={() => history.push("/")} style={{ cursor: "pointer" }}>
+          어디갈까?
+        </span>
         <WeatherBox>
           <Weather
             onClick={() => {
