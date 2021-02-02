@@ -81,8 +81,13 @@ const RecommendWap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 300px;
   margin: 20px;
+  height: 300px;
+  @media only screen and (max-width: 900px) {
+    flex-direction: column;
+    margin: 20px 0 0 0;
+    height: auto;
+  }
 `;
 
 const RouletteContainer = styled.div`
@@ -114,7 +119,7 @@ const RouletteBtn = styled.button`
 
 const DesContainer = styled.div`
   display: flex;
-  width: 50%;
+  width: 520px;
   height: 100%;
   opacity: 0;
   visibility: hidden;
@@ -141,6 +146,11 @@ const DesContainer = styled.div`
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   cursor: pointer;
+
+  @media only screen and (max-width: 900px) {
+    height: 250px;
+    margin: 10px 0;
+  }
 `;
 
 const Img = styled.div`
@@ -170,7 +180,7 @@ const DesWrap = styled.div`
 `;
 
 const Des = styled.span`
-  font-size: 18px;
+  font-size: 16px;
   &:not(:last-child) {
     margin-bottom: 10px;
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,12 +8,30 @@ import useStore from "useStore";
 import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 
 const FestivalsSlide = ({ festivals }) => {
+  const [slideCount, setSlideCount] = useState(3);
   const { FavoriteStore } = useStore();
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth !== 0) {
+        if (window.innerWidth > 1000) {
+          setSlideCount(3);
+        } else if (window.innerWidth > 630) {
+          setSlideCount(2);
+        } else {
+          setSlideCount(1);
+        }
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return window.removeEventListener("resize", updateSize);
+  }, []);
 
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: slideCount,
     slidesToScroll: 1,
     autoplay: true,
     centerMode: true,
@@ -83,6 +101,10 @@ const FestivalCard = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
+
+  @media only screen and (max-width: 900px) {
+    height: 200px;
+  }
 `;
 
 const Name = styled.span`

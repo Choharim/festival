@@ -3,6 +3,7 @@ import { useObserver } from "mobx-react";
 import FestivalsSlide from "./_fragments/FestivalsSlide";
 import Roulette from "./_fragments/Roulette";
 import { getFestivals } from "components/api/api";
+import styled from "styled-components";
 
 const Home = () => {
   const [festivalData, setFestivalData] = useState({

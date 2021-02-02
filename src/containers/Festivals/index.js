@@ -50,6 +50,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: space-between;
   margin: 20px;
+
+  @media only screen and (max-width: 700px) {
+    //align-items:center;
+  }
 `;
 
 const Title = styled.span`
@@ -73,6 +77,13 @@ const FestvivalCard = styled.div`
     margin-bottom: 20px;
   }
   cursor: pointer;
+
+  @media only screen and (max-width: 1000px) {
+    width: 49%;
+  }
+  @media only screen and (max-width: 700px) {
+    width: 90%;
+  }
 `;
 
 const Img = styled.div`
@@ -83,6 +94,10 @@ const Img = styled.div`
   width: 100%;
   height: 350px;
   border-radius: 15px;
+
+  @media only screen and (max-width: 700px) {
+    height: 400px;
+  }
 `;
 
 const BookMark = styled(BsBookmark)`
