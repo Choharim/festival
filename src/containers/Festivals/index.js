@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getFestivals } from "components/api/api";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
@@ -10,6 +11,7 @@ const Festivals = () => {
   const { FavoriteStore } = useStore();
   const [festivals, setFestivals] = useState([]);
   const [search, setSearch] = useState("");
+  let history = useHistory();
 
   const getData = () => {
     const response = Promise.resolve(getFestivals());
@@ -53,7 +55,15 @@ const Festivals = () => {
       </Wrap>
       <Wrap>
         {festivals.map((each) => (
-          <FestvivalCard key={each.id}>
+          <FestvivalCard
+            key={each.id}
+            onClick={() => {
+              history.push({
+                pathname: `/festivals/:${each.id}`,
+                state: { festival: each },
+              });
+            }}
+          >
             <Img image={each.image1}>
               {FavoriteStore.favorite.some((ele) => ele === each.title) ? (
                 <FillBookMark

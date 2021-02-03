@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,6 +9,7 @@ const Roulette = ({ festivals }) => {
   const randomNumber = Math.floor(Math.random() * festivals.length);
   const [rouletteArray, setRouletteArray] = useState(festivals);
   const [move, setMove] = useState(true);
+  let history = useHistory();
 
   const startRoulette = () => {
     setRouletteArray([...festivals, festivals[randomNumber]]);
@@ -52,7 +54,17 @@ const Roulette = ({ festivals }) => {
               Click !
             </RouletteBtn>
           </RouletteContainer>
-          <DesContainer visible={!move}>
+          <DesContainer
+            visible={!move}
+            onClick={() =>
+              history.push({
+                pathname: `/festivals/:${
+                  rouletteArray[rouletteArray.length - 1].id
+                }`,
+                state: { festival: rouletteArray[rouletteArray.length - 1] },
+              })
+            }
+          >
             <Img
               visible={!move}
               bg={rouletteArray[rouletteArray.length - 1].image1}

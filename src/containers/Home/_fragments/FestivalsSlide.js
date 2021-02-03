@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,6 +11,7 @@ import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 const FestivalsSlide = ({ festivals }) => {
   const [slideCount, setSlideCount] = useState(3);
   const { FavoriteStore } = useStore();
+  let history = useHistory();
 
   useEffect(() => {
     const updateSize = () => {
@@ -44,7 +46,16 @@ const FestivalsSlide = ({ festivals }) => {
       <Title>어디갈까, 축제</Title>
       <FestivalsContainer {...settings}>
         {festivals.map((each) => (
-          <FestivalCard key={each.id} bg={each.image2}>
+          <FestivalCard
+            key={each.id}
+            bg={each.image2}
+            onClick={() =>
+              history.push({
+                pathname: `/festivals/:${each.id}`,
+                state: { festival: each },
+              })
+            }
+          >
             {FavoriteStore.favorite.some((ele) => ele === each.title) ? (
               <FillBookMark
                 onClick={() => FavoriteStore.getFavorite(each.title)}

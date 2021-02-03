@@ -3,6 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import HomePage from "pages/Home/index";
 import FestivalsPage from "pages/Festivals/index";
+import FastivalDetailsPage from "pages/FestivalDetails/index";
 
 const App = () => {
   return (
@@ -15,6 +16,9 @@ const App = () => {
           </Route>
           <Route path="/festivals" exact>
             <FestivalsPage />
+          </Route>
+          <Route path="/festivals/:id" exact>
+            <FastivalDetailsPage />
           </Route>
         </Switch>
       </Router>
