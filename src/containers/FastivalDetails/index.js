@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Category from "./_fragments/Category";
 import Head from "./_fragments/Head";
+import Details from "./_fragments/Details";
 
 const FastivalDetails = () => {
   let location = useLocation();
@@ -23,6 +24,7 @@ const FastivalDetails = () => {
           <DesContainer>
             <Head festival={location.state.festival} />
             <Category festival={location.state.festival} />
+            <Details festival={location.state.festival} />
           </DesContainer>
         </Container>
       )}
@@ -54,4 +56,5 @@ const DesContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 50%;
+  padding: 10px 0;
 `;

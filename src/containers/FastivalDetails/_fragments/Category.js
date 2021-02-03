@@ -22,7 +22,7 @@ const Category = ({ festival }) => {
       case "전화번호":
         return festival.phone;
       default:
-        return;
+        return `${festival.title}, 어때요?`;
     }
   };
 
@@ -81,11 +81,9 @@ const Category = ({ festival }) => {
           </CategoryText>
         </CategoryBox>
       </CategoryContainer>
-      {category !== "" && (
-        <InfoContainer>
-          <InfoText>{showInfo(category)} 입니다.</InfoText>
-        </InfoContainer>
-      )}
+      <InfoContainer category={category}>
+        <span>{showInfo(category)}</span>
+      </InfoContainer>
     </>
   );
 };
@@ -124,8 +122,8 @@ const CategoryIcon = styled.div`
   ${(props) =>
     props.category &&
     css`
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
     `}
 `;
 
@@ -144,11 +142,10 @@ const InfoContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: calc(100% - 20px);
-  margin: 10px 0;
+  height: 40px;
+  margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 `;
-
-const InfoText = styled.span``;
