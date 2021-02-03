@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import Details from "./_fragments/Details";
+import Category from "./_fragments/Category";
 import Head from "./_fragments/Head";
 
 const FastivalDetails = () => {
@@ -22,7 +22,7 @@ const FastivalDetails = () => {
           <Img bg={location.state.festival.image2}></Img>
           <DesContainer>
             <Head festival={location.state.festival} />
-            <Details festival={location.state.festival} />
+            <Category festival={location.state.festival} />
           </DesContainer>
         </Container>
       )}
