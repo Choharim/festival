@@ -49,7 +49,9 @@ const FestivalsSlide = ({ festivals }) => {
           <FestivalCard
             key={each.id}
             bg={each.image2}
-            onClick={() =>
+            id="card"
+            onClick={(e) =>
+              e.target.id === "card" &&
               history.push({
                 pathname: `/festivals/:${each.id}`,
                 state: { festival: each },

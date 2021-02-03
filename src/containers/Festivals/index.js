@@ -55,16 +55,18 @@ const Festivals = () => {
       </Wrap>
       <Wrap>
         {festivals.map((each) => (
-          <FestvivalCard
-            key={each.id}
-            onClick={() => {
-              history.push({
-                pathname: `/festivals/:${each.id}`,
-                state: { festival: each },
-              });
-            }}
-          >
-            <Img image={each.image1}>
+          <FestvivalCard key={each.id}>
+            <Img
+              image={each.image1}
+              id="card"
+              onClick={(e) => {
+                e.target.id === "card" &&
+                  history.push({
+                    pathname: `/festivals/:${each.id}`,
+                    state: { festival: each },
+                  });
+              }}
+            >
               {FavoriteStore.favorite.some((ele) => ele === each.title) ? (
                 <FillBookMark
                   onClick={() => FavoriteStore.getFavorite(each.title)}
@@ -152,7 +154,6 @@ const FestvivalCard = styled.div`
   &:not(:last-child) {
     margin-bottom: 10px;
   }
-  cursor: pointer;
 
   @media only screen and (max-width: 1000px) {
     width: 49%;
@@ -170,6 +171,7 @@ const Img = styled.div`
   width: 100%;
   height: 350px;
   border-radius: 15px;
+  cursor: pointer;
 
   @media only screen and (max-width: 700px) {
     height: 400px;
