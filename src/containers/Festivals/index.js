@@ -3,24 +3,53 @@ import { getFestivals } from "components/api/api";
 import styled from "styled-components";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
-import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
+import { BsFillBookmarkFill, BsBookmark, BsSearch } from "react-icons/bs";
+import { BiError } from "react-icons/bi";
 
 const Festivals = () => {
-  const [festivals, setFestivals] = useState([]);
   const { FavoriteStore } = useStore();
+  const [festivals, setFestivals] = useState([]);
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
+  const getData = () => {
     const response = Promise.resolve(getFestivals());
 
     response.then((data) => {
       setFestivals(data);
     });
+  };
+  useEffect(() => {
+    getData();
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFestivals(
+      festivals.filter(
+        (each) =>
+          each.title.includes(search) ||
+          each.subTitle.includes(search) ||
+          each.hashTage.some(
+            (ele) => ele.includes(search) || search.includes(ele)
+          )
+      )
+    );
+  };
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      getData();
+    }
+  };
 
   return useObserver(() => (
     <Container>
       <Wrap>
         <Title>어디갈까, 축제</Title>
+        <SearchContainer onSubmit={handleSubmit}>
+          <SearchIcon />
+          <SearchInput type="text" value={search} onChange={handleChange} />
+        </SearchContainer>
       </Wrap>
       <Wrap>
         {festivals.map((each) => (
@@ -46,6 +75,12 @@ const Festivals = () => {
             </TextWrap>
           </FestvivalCard>
         ))}
+        {festivals.length === 0 && (
+          <None>
+            <NonIcon />
+            <span>검색 결과가 없습니다</span>
+          </None>
+        )}
       </Wrap>
     </Container>
   ));
@@ -57,16 +92,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: space-between;
+  width: calc(100% - 40px);
   margin: 20px;
-
-  @media only screen and (max-width: 700px) {
-    //align-items:center;
-  }
 `;
 
 const Title = styled.span`
   font-size: 28px;
-  margin-bottom: 20px;
+  font-family: "Stylish", sans-serif;
 `;
 
 const Wrap = styled.div`
@@ -74,6 +106,32 @@ const Wrap = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  &:first-child {
+    margin-bottom: 20px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    justify-content: center;
+  }
+`;
+
+const SearchContainer = styled.form`
+  padding: 5px 10px;
+  border: 1px solid #959494;
+  border-radius: 5px;
+
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+
+const SearchIcon = styled(BsSearch)`
+  margin-right: 10px;
+`;
+
+const SearchInput = styled.input`
+  outline: none;
+  border: none;
 `;
 
 const FestvivalCard = styled.div`
@@ -82,7 +140,7 @@ const FestvivalCard = styled.div`
   align-items: center;
   width: 32%;
   &:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   cursor: pointer;
 
@@ -134,7 +192,7 @@ const TextWrap = styled.div`
 
 const DesText = styled.span`
   font-size: 18px;
-  margin-bottom: 10px;
+  height: 60px;
 `;
 
 const HashTage = styled.span`
@@ -147,4 +205,15 @@ const HashTage = styled.span`
   &:first-child {
     margin-right: 5px;
   }
+`;
+
+const None = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const NonIcon = styled(BiError)`
+  font-size: 50px;
 `;
