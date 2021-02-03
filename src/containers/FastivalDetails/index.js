@@ -55,6 +55,14 @@ const DesContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 50%;
+  width: 60%;
   padding: 10px 0;
+
+  @media only screen and (max-width: 900px) {
+    width: 90%;
+  }
+  @media only screen and (max-width: 700px) {
+    width: calc(100% - 20px);
+    padding: 0 10px;
+  }
 `;
