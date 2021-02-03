@@ -13,18 +13,25 @@ const FestivalsSlide = ({ festivals }) => {
   const { FavoriteStore } = useStore();
   let history = useHistory();
 
-  useEffect(() => {
-    const updateSize = () => {
-      if (window.innerWidth !== 0) {
-        if (window.innerWidth > 1000) {
-          setSlideCount(3);
-        } else if (window.innerWidth > 630) {
-          setSlideCount(2);
-        } else {
-          setSlideCount(1);
-        }
+  const updateSize = () => {
+    if (window.innerWidth !== 0) {
+      if (window.innerWidth > 1000) {
+        setSlideCount(3);
+      } else if (window.innerWidth > 630) {
+        setSlideCount(2);
+      } else {
+        setSlideCount(1);
       }
-    };
+    }
+  };
+
+  const resize = () => {
+    window.addEventListener("resize", updateSize);
+    //window.removeEventListener("resize", updateSize);
+  };
+  resize();
+
+  useEffect(() => {
     updateSize();
     window.addEventListener("resize", updateSize);
     return window.removeEventListener("resize", updateSize);
