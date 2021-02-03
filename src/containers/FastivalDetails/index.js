@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Category from "./_fragments/Category";
 import Head from "./_fragments/Head";
 import Details from "./_fragments/Details";
+import Map from "./_fragments/Map";
 
 const FastivalDetails = () => {
   let location = useLocation();
@@ -25,6 +26,10 @@ const FastivalDetails = () => {
             <Head festival={location.state.festival} />
             <Category festival={location.state.festival} />
             <Details festival={location.state.festival} />
+            <Map
+              address={location.state.festival.address}
+              title={location.state.festival.title}
+            />
           </DesContainer>
         </Container>
       )}

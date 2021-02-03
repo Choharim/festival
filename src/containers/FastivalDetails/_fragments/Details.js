@@ -14,8 +14,6 @@ const Details = ({ festival }) => {
           </DesText>
           <DesText>{festival.time}</DesText>
         </div>
-        <Title>#주소</Title>
-        <DesText>{festival.address}</DesText>
         <Title>#요금</Title>
         <>
           {Object.entries(festival.fee).map((ele, i) => (
@@ -26,6 +24,8 @@ const Details = ({ festival }) => {
         </>
         <Title>#전화번호</Title>
         <DesText>{festival.phone}</DesText>
+        <Title>#주소</Title>
+        <DesText>{festival.address}</DesText>
       </TextContainer>
     </>
   );
