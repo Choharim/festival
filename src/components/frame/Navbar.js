@@ -60,9 +60,7 @@ const Navbar = () => {
   return (
     <>
       <NavbarContainer>
-        <span onClick={() => history.push("/")} style={{ cursor: "pointer" }}>
-          어디갈까?
-        </span>
+        <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
         <WeatherBox>
           <Weather
             onClick={() => {
@@ -78,10 +76,10 @@ const Navbar = () => {
       <NavBarBox showNav={showNav}>
         <CloseBtn onClick={() => setShowNav(false)} />
         <UrlBox>
-          <Link to="/">홈</Link>
-          <Link to="/festivals">어디갈까, 축제</Link>
-          <Link to="/bookMark">가고싶은, 축제</Link>
-          <Link to="/logIn">로그인</Link>
+          <Url to="/">홈</Url>
+          <Url to="/festivals">어디갈까, 축제</Url>
+          <Url to="/bookMark">가고싶은, 축제</Url>
+          <Url to="/logIn">로그인</Url>
         </UrlBox>
         <WeatherBox>
           {weatherLoading && (
@@ -117,6 +115,11 @@ const NavbarContainer = styled.div`
   font-size: 23px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+`;
+
+const Logo = styled.span`
+  font-family: "Stylish", sans-serif;
+  cursor: pointer;
 `;
 
 const NavBar = styled(FaBars)`
@@ -164,6 +167,10 @@ const UrlBox = styled.div`
   height: 180px;
 `;
 
+const Url = styled(Link)`
+  font-family: "Stylish", sans-serif;
+`;
+
 const WeatherBox = styled.div`
   display: flex;
   justify-content: center;
@@ -174,6 +181,7 @@ const Weather = styled.span`
   margin-right: 15px;
   font-size: 18px;
   cursor: pointer;
+  font-family: "Stylish", sans-serif;
 `;
 
 const Rain = styled(FaCloudRain)`

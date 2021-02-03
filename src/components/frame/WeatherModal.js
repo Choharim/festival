@@ -80,7 +80,7 @@ const Bg = styled.div`
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 400px;
   height: 400px;
@@ -111,16 +111,16 @@ const CloseBtn = styled(AiOutlineClose)`
 
 const Title = styled.span`
   font-size: 35px;
+  font-family: "Stylish", sans-serif;
 `;
 
 const Img = styled.img`
   width: 40%;
   height: 40%;
-  margin: 20px 0;
 `;
 
 const Text = styled.span`
-  font-size: 23px;
+  font-size: 18px;
   :not(:last-child) {
     margin-bottom: 10px;
   }

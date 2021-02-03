@@ -36,6 +36,14 @@ const Festivals = () => {
                 />
               )}
             </Img>
+            <TextWrap>
+              <DesText>{each.subTitle}</DesText>
+              <div>
+                {each.hashTage.map((tage, i) => (
+                  <HashTage key={i}>#{tage}</HashTage>
+                ))}
+              </div>
+            </TextWrap>
           </FestvivalCard>
         ))}
       </Wrap>
@@ -114,4 +122,29 @@ const FillBookMark = styled(BsFillBookmarkFill)`
   right: 10px;
   font-size: 32px;
   color: #fff;
+`;
+
+const TextWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 0;
+  width: 100%;
+`;
+
+const DesText = styled.span`
+  font-size: 18px;
+  margin-bottom: 10px;
+`;
+
+const HashTage = styled.span`
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #959494;
+  background-color: #f2f2f2;
+
+  &:first-child {
+    margin-right: 5px;
+  }
 `;

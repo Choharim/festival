@@ -58,7 +58,9 @@ const Roulette = ({ festivals }) => {
               bg={rouletteArray[rouletteArray.length - 1].image1}
             />
             <TextContainer>
-              <Text>{rouletteArray[rouletteArray.length - 1].subTitle}</Text>
+              <span style={{ fontSize: "18px" }}>
+                {rouletteArray[rouletteArray.length - 1].subTitle}
+              </span>
               <DesWrap>
                 <Des>
                   {rouletteArray[rouletteArray.length - 1].startDate} ~ {""}
@@ -99,6 +101,7 @@ const RouletteContainer = styled.div`
 const Text = styled.span`
   font-size: 23px;
   text-align: center;
+  font-family: "Stylish", sans-serif;
 `;
 
 const Name = styled.span`
@@ -107,6 +110,7 @@ const Name = styled.span`
   white-space: nowrap;
   height: 50px;
   line-height: 50px;
+  font-family: "Stylish", sans-serif;
 `;
 
 const RouletteBtn = styled.button`
@@ -180,7 +184,7 @@ const DesWrap = styled.div`
 `;
 
 const Des = styled.span`
-  font-size: 16px;
+  font-size: 13px;
   &:not(:last-child) {
     margin-bottom: 10px;
   }

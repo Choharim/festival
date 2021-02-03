@@ -72,6 +72,7 @@ const Container = styled.div`
 const Title = styled.span`
   font-size: 28px;
   margin-left: 20px;
+  font-family: "Stylish", sans-serif;
 `;
 
 const FestivalsContainer = styled(Slider)`
@@ -108,7 +109,7 @@ const FestivalCard = styled.button`
 `;
 
 const Name = styled.span`
-  font-size: 23px;
+  font-size: 18px;
   color: #fff;
 `;
 
