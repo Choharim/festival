@@ -104,7 +104,7 @@
         "청소년": "7,000원"
       },
       "time": "일몰 후 ~ 23시",
-      "image1": "https://lh3.googleusercontent.com/proxy/T61BR_RuuqtPMaDVB9SNMQxYOBnaRloZ_GAPIWWqaRyWulPtki7c2r3Z0Ko46zcuwm55Yn0zUVmS_fu6hocEzNUjPAWLySZoZQnXhKJurJmUbgkatkpLdoRw_QGlecraOEGAzzIHfqFsBCSCwH1OlRdFIw",
+      "image1": "https://lh3.googleusercontent.com/proxy/rtu1aEVLiu995kCSupZX2Xgz2k5bekHzHofNmg9WLiW-MZm5u5QWmdu2DYMdq76tj6_nKPxv6ZhgAMDHLS0p2epVlORBvIJhw971X53IgXK_a33FKaod_JSTul1iRJvR0H70slDs6-lf37pmpA",
       "image2": "https://tong.visitkorea.or.kr/cms/resource/20/2445120_image2_1.JPG"
     },
     {
@@ -126,5 +126,5 @@
       "image2": "https://image.여기유.com/content_festival/2020011312221115788857318760.jpg"
     }
   ],
-  "users": [{ "id": 1, "name": "Lee", "role": "none" }]
+  "users": [{ "id": 1, "userName": "harim", "password": 1234 }]
 }

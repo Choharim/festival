@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useObserver } from "mobx-react";
+import useStore from "useStore";
 
 const LogIn = () => {
   const [user, setUser] = useState({ id: "", pw: "" });
   let history = useHistory();
+  const { LogInStore } = useStore();
 
   useEffect(() => {
     window.Kakao.Auth.createLoginButton({
@@ -14,9 +17,13 @@ const LogIn = () => {
           url: "/v2/user/me",
           success: (res) => {
             console.log(res);
+            LogInStore.setUserName(res.id);
+            LogInStore.setLogInSuccess(true);
             history.push("/");
           },
           fail: (res) => {
+            LogInStore.setUserName("");
+            LogInStore.setLogInSuccess(false);
             alert("잘못된 정보입니다.");
           },
         });
@@ -25,7 +32,7 @@ const LogIn = () => {
         alert(JSON.stringify(err));
       },
     });
-  }, []);
+  }, [history, LogInStore]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,8 +41,9 @@ const LogIn = () => {
     setUser({ ...user, [input]: e.target.value });
   };
 
-  return (
+  return useObserver(() => (
     <Container>
+      <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
       <Form onSubmit={handleSubmit}>
         <Label>아이디</Label>
         <Input type="text" value={user.id} onChange={handleChange("id")} />
@@ -45,7 +53,7 @@ const LogIn = () => {
       </Form>
       <KaKaoBtn id="kakao-login-btn"></KaKaoBtn>
     </Container>
-  );
+  ));
 };
 
 export default LogIn;
@@ -55,7 +63,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding-top: 20px;
+`;
+
+const Logo = styled.span`
+  margin-top: 40px;
+  font-size: 38px;
+  font-family: "Stylish", sans-serif;
+  cursor: pointer;
 `;
 
 const Form = styled.form`
@@ -64,6 +78,11 @@ const Form = styled.form`
   align-items: flex-start;
   justify-content: center;
   width: 30%;
+  margin: 20px 0;
+
+  @media only screen and (max-width: 900px) {
+    width: 50%;
+  }
 `;
 
 const Label = styled.label`
@@ -72,7 +91,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: calc(100% - 20px);
-  padding: 5px 10px;
+  padding: 10px;
   border-radius: 5px;
   outline: none;
   border: none;
@@ -81,21 +100,28 @@ const Input = styled.input`
 `;
 
 const Btn = styled.button`
+  align-self: flex-end;
+  margin-top: 20px;
+  padding: 5px 20px;
   outline: none;
   border: none;
-  background-color: transparent;
-  align-self: flex-end;
   border-radius: 5px;
-  margin-top: 10px;
-  padding: 5px 10px;
+  background-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 `;
 
 const KaKaoBtn = styled.button`
   width: 30%;
-  border-radius: 5px;
+  border-radius: 10px;
   outline: none;
   border: none;
   background-color: transparent;
+  > img {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 900px) {
+    width: 50%;
+  }
 `;
