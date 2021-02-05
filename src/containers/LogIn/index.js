@@ -53,6 +53,7 @@ const LogIn = () => {
       LogInStore.setLogInSuccess(true);
       history.push("/");
     } else {
+      setUser({ id: "", pw: "" });
       alert("잘못된 정보입니다");
     }
   };
