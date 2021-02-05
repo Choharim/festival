@@ -25,13 +25,24 @@ const SignUp = () => {
       user.pw === user.pw2 &&
       users.every((each) => each.userName !== user.id)
     ) {
+      axios({
+        method: "post",
+        url: "http://localhost:5000/users",
+        data: {
+          userName: user.id,
+          password: user.pw,
+        },
+      });
+      LogInStore.setUserName(user.id);
+      LogInStore.setLogInSuccess(true);
+      history.push("/");
     }
   };
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  return (
+  return useObserver(() => (
     <Container>
       <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
       <Form onSubmit={handleSubmit}>
@@ -104,7 +115,7 @@ const SignUp = () => {
         </BtnWrap>
       </Form>
     </Container>
-  );
+  ));
 };
 
 export default SignUp;
