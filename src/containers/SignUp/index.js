@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useObserver } from "mobx-react";
@@ -9,6 +9,10 @@ const SignUp = () => {
   const [user, setUser] = useState({ id: "", pw: "", pw2: "" });
   let history = useHistory();
   const { LogInStore } = useStore();
+  const [idBlur, setIdBlur] = useState(false);
+  const [pwBlur, setPwBlur] = useState(false);
+  const [pw2Blur, setPw2Blur] = useState(false);
+  const ref = useRef();
 
   useEffect(() => {}, []);
 
@@ -23,36 +27,41 @@ const SignUp = () => {
     <Container>
       <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
       <Form onSubmit={handleSubmit}>
-        <Label warning={user.id === ""}>아이디</Label>
+        <Label warning={user.id === "" && idBlur}>아이디</Label>
         <Input
           type="text"
           value={user.id}
           onChange={handleChange("id")}
-          warning={user.id === ""}
+          warning={user.id === "" && idBlur}
+          onBlur={() => setIdBlur(true)}
         />
-        <WarningText warning={user.id === ""}>
+        <WarningText warning={user.id === "" && idBlur}>
           {user.id === "" ? "아이디를 적어주세요!" : "이미 있는 아이디입니다"}
         </WarningText>
-        <Label warning={user.pw === ""}>비밀번호</Label>
+        <Label warning={user.pw === "" && pwBlur}>비밀번호</Label>
         <Input
           type="text"
           value={user.pw}
           onChange={handleChange("pw")}
-          warning={user.pw === ""}
+          warning={user.pw === "" && pwBlur}
+          onBlur={() => setPwBlur(true)}
         />
-        <WarningText warning={user.pw === ""}>
+        <WarningText warning={user.pw === "" && pwBlur}>
           비밀번호를 적어주세요!
         </WarningText>
-        <Label warning={user.pw2 !== "" && user.pw !== user.pw2}>
+        <Label warning={user.pw2 !== "" && user.pw !== user.pw2 && pw2Blur}>
           비밀번호 확인
         </Label>
         <Input
           type="text"
           value={user.pw2}
           onChange={handleChange("pw2")}
-          warning={user.pw2 !== "" && user.pw !== user.pw2}
+          warning={user.pw2 !== "" && user.pw !== user.pw2 && pw2Blur}
+          onBlur={() => setPw2Blur(true)}
         />
-        <WarningText warning={user.pw2 !== "" && user.pw !== user.pw2}>
+        <WarningText
+          warning={user.pw2 !== "" && user.pw !== user.pw2 && pw2Blur}
+        >
           비밀번호를 확인해주세요!
         </WarningText>
         <BtnWrap>
