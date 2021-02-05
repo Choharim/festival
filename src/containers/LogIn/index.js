@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
+import axios from "axios";
 
 const LogIn = () => {
+  const [users, setUsers] = useState([]);
   const [user, setUser] = useState({ id: "", pw: "" });
   let history = useHistory();
   const { LogInStore } = useStore();
+  const [idBlur, setIdBlur] = useState(false);
+  const [pwBlur, setPwBlur] = useState(false);
 
   useEffect(() => {
     window.Kakao.Auth.createLoginButton({
@@ -34,21 +38,62 @@ const LogIn = () => {
     });
   }, [history, LogInStore]);
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      users.some(
+        (each) => each.userName === user.id && each.password === user.pw
+      )
+    ) {
+      LogInStore.setUserName(user.id);
+      LogInStore.setLogInSuccess(true);
+      history.push("/");
+    } else {
+      alert("잘못된 정보입니다");
+    }
   };
-  const handleChange = (input) => (e) => {
-    setUser({ ...user, [input]: e.target.value });
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return useObserver(() => (
     <Container>
       <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
       <Form onSubmit={handleSubmit}>
-        <Label>아이디</Label>
-        <Input type="text" value={user.id} onChange={handleChange("id")} />
-        <Label>비밀번호</Label>
-        <Input type="text" value={user.pw} onChange={handleChange("pw")} />
+        <Label warning={user.id === "" && idBlur}>아이디</Label>
+        <Input
+          type="text"
+          name="id"
+          warning={user.id === "" && idBlur}
+          value={user.id}
+          onChange={(e) => {
+            handleChange(e);
+            setIdBlur(true);
+          }}
+          onBlur={() => setIdBlur(true)}
+        />
+        <WarningText warning={user.id === "" && idBlur}>
+          아이디를 적어주세요
+        </WarningText>
+        <Label warning={user.pw === "" && pwBlur}>비밀번호</Label>
+        <Input
+          type="text"
+          name="pw"
+          warning={user.pw === "" && pwBlur}
+          value={user.pw}
+          onChange={(e) => {
+            handleChange(e);
+            setPwBlur(true);
+          }}
+          onBlur={() => setPwBlur(true)}
+        />
+        <WarningText warning={user.pw === "" && pwBlur}>
+          비밀번호를 적어주세요
+        </WarningText>
         <BtnWrap>
           <Link to="signUp"> 회원가입</Link>
           <Btn>확인</Btn>
@@ -89,7 +134,12 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
-  margin: 10px 0 5px 0;
+  margin-bottom: 5px;
+  ${(props) =>
+    props.warning &&
+    css`
+      color: #ff7777;
+    `}
 `;
 
 const Input = styled.input`
@@ -100,6 +150,24 @@ const Input = styled.input`
   border: none;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  ${(props) =>
+    props.warning &&
+    css`
+      box-shadow: #ff7777 0px 1px 3px 0px, #ff7777 0px 0px 0px 1px;
+    `}
+`;
+
+const WarningText = styled.span`
+  margin-top: 5px;
+  font-size: 13px;
+  color: #ff7777;
+  visibility: hidden;
+  ${(props) =>
+    props.warning &&
+    css`
+      color: #ff7777;
+      visibility: visible;
+    `}
 `;
 
 const BtnWrap = styled.div`
@@ -118,6 +186,7 @@ const Btn = styled.button`
   background-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  cursor: pointer;
 `;
 
 const KaKaoBtn = styled.button`

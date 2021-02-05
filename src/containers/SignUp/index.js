@@ -109,11 +109,12 @@ const SignUp = () => {
         <WarningText warning={user.pw !== user.pw2 && user.pw2 !== ""}>
           비밀번호를 확인해주세요!
         </WarningText>
-        <BtnWrap>
-          <Link to="logIn">로그인</Link>
-          <Btn>확인</Btn>
-        </BtnWrap>
+        <Btn>확인</Btn>
       </Form>
+      <div>
+        <LogInText>이미 아이디가 있으신가요?</LogInText>
+        <LogInBtn to="logIn">로그인</LogInBtn>
+      </div>
     </Container>
   ));
 };
@@ -170,6 +171,7 @@ const Input = styled.input`
       box-shadow: #ff7777 0px 1px 3px 0px, #ff7777 0px 0px 0px 1px;
     `}
 `;
+
 const WarningText = styled.span`
   margin-top: 5px;
   font-size: 13px;
@@ -183,15 +185,8 @@ const WarningText = styled.span`
     `}
 `;
 
-const BtnWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  width: 100%;
-  margin-top: 10px;
-`;
-
 const Btn = styled.button`
+  align-self: flex-end;
   padding: 5px 20px;
   outline: none;
   border: none;
@@ -199,4 +194,12 @@ const Btn = styled.button`
   background-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+`;
+
+const LogInText = styled.span`
+  margin-right: 10px;
+`;
+
+const LogInBtn = styled(Link)`
+  text-decoration: underline;
 `;
