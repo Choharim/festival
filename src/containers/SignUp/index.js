@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useObserver } from "mobx-react";
@@ -7,61 +7,95 @@ import axios from "axios";
 
 const SignUp = () => {
   const [user, setUser] = useState({ id: "", pw: "", pw2: "" });
+  const [users, setUsers] = useState([]);
   let history = useHistory();
   const { LogInStore } = useStore();
   const [idBlur, setIdBlur] = useState(false);
   const [pwBlur, setPwBlur] = useState(false);
-  const [pw2Blur, setPw2Blur] = useState(false);
-  const ref = useRef();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      user.id !== "" &&
+      user.pw !== "" &&
+      user.pw === user.pw2 &&
+      users.every((each) => each.userName !== user.id)
+    ) {
+    }
   };
-  const handleChange = (input) => (e) => {
-    setUser({ ...user, [input]: e.target.value });
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return (
     <Container>
       <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
       <Form onSubmit={handleSubmit}>
-        <Label warning={user.id === "" && idBlur}>아이디</Label>
+        <Label
+          warning={
+            (user.id === "" ||
+              users.some((each) => each.userName === user.id)) &&
+            idBlur
+          }
+        >
+          아이디
+        </Label>
         <Input
           type="text"
           value={user.id}
-          onChange={handleChange("id")}
-          warning={user.id === "" && idBlur}
+          name="id"
+          onChange={(e) => {
+            handleChange(e);
+            setIdBlur(true);
+          }}
+          warning={
+            (user.id === "" ||
+              users.some((each) => each.userName === user.id)) &&
+            idBlur
+          }
           onBlur={() => setIdBlur(true)}
         />
-        <WarningText warning={user.id === "" && idBlur}>
+        <WarningText
+          warning={
+            (user.id === "" ||
+              users.some((each) => each.userName === user.id)) &&
+            idBlur
+          }
+        >
           {user.id === "" ? "아이디를 적어주세요!" : "이미 있는 아이디입니다"}
         </WarningText>
         <Label warning={user.pw === "" && pwBlur}>비밀번호</Label>
         <Input
           type="text"
           value={user.pw}
-          onChange={handleChange("pw")}
+          name="pw"
+          onChange={(e) => {
+            handleChange(e);
+            setPwBlur(true);
+          }}
           warning={user.pw === "" && pwBlur}
           onBlur={() => setPwBlur(true)}
         />
         <WarningText warning={user.pw === "" && pwBlur}>
           비밀번호를 적어주세요!
         </WarningText>
-        <Label warning={user.pw2 !== "" && user.pw !== user.pw2 && pw2Blur}>
+        <Label warning={user.pw !== user.pw2 && user.pw2 !== ""}>
           비밀번호 확인
         </Label>
         <Input
           type="text"
           value={user.pw2}
-          onChange={handleChange("pw2")}
-          warning={user.pw2 !== "" && user.pw !== user.pw2 && pw2Blur}
-          onBlur={() => setPw2Blur(true)}
+          name="pw2"
+          onChange={(e) => {
+            handleChange(e);
+          }}
+          warning={user.pw !== user.pw2 && user.pw2 !== ""}
         />
-        <WarningText
-          warning={user.pw2 !== "" && user.pw !== user.pw2 && pw2Blur}
-        >
+        <WarningText warning={user.pw !== user.pw2 && user.pw2 !== ""}>
           비밀번호를 확인해주세요!
         </WarningText>
         <BtnWrap>
