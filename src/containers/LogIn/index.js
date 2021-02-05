@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
 
@@ -49,7 +49,10 @@ const LogIn = () => {
         <Input type="text" value={user.id} onChange={handleChange("id")} />
         <Label>비밀번호</Label>
         <Input type="text" value={user.pw} onChange={handleChange("pw")} />
-        <Btn>확인</Btn>
+        <BtnWrap>
+          <Link to="signUp"> 회원가입</Link>
+          <Btn>확인</Btn>
+        </BtnWrap>
       </Form>
       <KaKaoBtn id="kakao-login-btn"></KaKaoBtn>
     </Container>
@@ -99,8 +102,14 @@ const Input = styled.input`
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 `;
 
+const BtnWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+`;
+
 const Btn = styled.button`
-  align-self: flex-end;
   margin-top: 20px;
   padding: 5px 20px;
   outline: none;

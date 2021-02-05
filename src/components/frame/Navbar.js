@@ -6,6 +6,8 @@ import { FaCloudRain, FaCloud, FaRegSnowflake, FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSun } from "react-icons/fi";
 import { IoIosThunderstorm } from "react-icons/io";
+import { useObserver } from "mobx-react";
+import useStore from "useStore";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -13,6 +15,7 @@ const Navbar = () => {
   const [weather, setWeather] = useState({});
   const [weatherLoading, setWeatherLoading] = useState(false);
   const history = useHistory();
+  const { LogInStore } = useStore();
 
   useEffect(() => {
     const WEATHER_KEY = process.env.REACT_APP_WEATHER_KEY;
@@ -57,7 +60,12 @@ const Navbar = () => {
     }
   };
 
-  return (
+  const logOut = () => {
+    LogInStore.setUserName("");
+    LogInStore.setLogInSuccess(false);
+  };
+
+  return useObserver(() => (
     <>
       <NavbarContainer>
         <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
@@ -79,7 +87,11 @@ const Navbar = () => {
           <Url to="/">홈</Url>
           <Url to="/festivals">어디갈까, 축제</Url>
           <Url to="/bookMark">가고싶은, 축제</Url>
-          <Url to="/logIn">로그인</Url>
+          {LogInStore.logInSuccess ? (
+            <LogOutBtn onClick={logOut}>로그아웃</LogOutBtn>
+          ) : (
+            <Url to="/logIn">로그인</Url>
+          )}
         </UrlBox>
         <WeatherBox>
           {weatherLoading && (
@@ -101,7 +113,7 @@ const Navbar = () => {
         weather={weather}
       />
     </>
-  );
+  ));
 };
 
 export default Navbar;
@@ -169,6 +181,15 @@ const UrlBox = styled.div`
 
 const Url = styled(Link)`
   font-family: "Stylish", sans-serif;
+`;
+
+const LogOutBtn = styled.button`
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-family: "Stylish", sans-serif;
+  font-size: 23px;
+  cursor: pointer;
 `;
 
 const WeatherBox = styled.div`

@@ -5,6 +5,7 @@ import HomePage from "pages/Home/index";
 import FestivalsPage from "pages/Festivals/index";
 import FastivalDetailsPage from "pages/FestivalDetails/index";
 import LogInPage from "pages/LogIn/index";
+import SignUpPage from "pages/SignUp/index";
 
 const App = () => {
   return (
@@ -23,6 +24,9 @@ const App = () => {
           </Route>
           <Route path="/logIn" exact>
             <LogInPage />
+          </Route>
+          <Route path="/signUp" exact>
+            <SignUpPage />
           </Route>
         </Switch>
       </Router>
