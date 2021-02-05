@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 const Map = ({ address, title }) => {
   const script = document.createElement("script");
   script.async = true;
@@ -24,12 +24,18 @@ const Map = ({ address, title }) => {
             const marker = new kakao.maps.Marker({
               map: map,
               position: coords,
+              clickable: true,
             });
+
             const infowindow = new kakao.maps.InfoWindow({
-              content: `<div style="width:150px;text-align:center;padding:6px 0;">${title}</div>`,
+              content: `<div style="width:150px;text-align:center;padding:6px 0;">${title}</=https:>`,
             });
+
             infowindow.open(map, marker);
             map.setCenter(coords);
+            kakao.maps.event.addListener(marker, "click", () => {
+              console.log("길찾기로 바로이동");
+            });
           }
         };
         geocoder.addressSearch(address, showMap);

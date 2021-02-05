@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import HomePage from "pages/Home/index";
 import FestivalsPage from "pages/Festivals/index";
 import FastivalDetailsPage from "pages/FestivalDetails/index";
+import LogInPage from "pages/LogIn/index";
 
 const App = () => {
   return (
@@ -19,6 +20,9 @@ const App = () => {
           </Route>
           <Route path="/festivals/:id" exact>
             <FastivalDetailsPage />
+          </Route>
+          <Route path="/logIn" exact>
+            <LogInPage />
           </Route>
         </Switch>
       </Router>

@@ -34,7 +34,11 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap"
       rel="stylesheet"
     />
-
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      window.Kakao.init("b24ca2c9c6c223945f9e6377cc6a7358");
+      console.log(window.Kakao.isInitialized());
+    </script>
     <title>어디갈까</title>
   </head>
   <body>
