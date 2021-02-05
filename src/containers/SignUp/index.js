@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
+import axios from "axios";
 
 const SignUp = () => {
   const [user, setUser] = useState({ id: "", pw: "", pw2: "" });
   let history = useHistory();
   const { LogInStore } = useStore();
+
+  useEffect(() => {}, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,12 +23,38 @@ const SignUp = () => {
     <Container>
       <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
       <Form onSubmit={handleSubmit}>
-        <Label>아이디</Label>
-        <Input type="text" value={user.id} onChange={handleChange("id")} />
-        <Label>비밀번호</Label>
-        <Input type="text" value={user.pw} onChange={handleChange("pw")} />
-        <Label>비밀번호 확인</Label>
-        <Input type="text" value={user.pw2} onChange={handleChange("pw2")} />
+        <Label warning={user.id === ""}>아이디</Label>
+        <Input
+          type="text"
+          value={user.id}
+          onChange={handleChange("id")}
+          warning={user.id === ""}
+        />
+        <WarningText warning={user.id === ""}>
+          {user.id === "" ? "아이디를 적어주세요!" : "이미 있는 아이디입니다"}
+        </WarningText>
+        <Label warning={user.pw === ""}>비밀번호</Label>
+        <Input
+          type="text"
+          value={user.pw}
+          onChange={handleChange("pw")}
+          warning={user.pw === ""}
+        />
+        <WarningText warning={user.pw === ""}>
+          비밀번호를 적어주세요!
+        </WarningText>
+        <Label warning={user.pw2 !== "" && user.pw !== user.pw2}>
+          비밀번호 확인
+        </Label>
+        <Input
+          type="text"
+          value={user.pw2}
+          onChange={handleChange("pw2")}
+          warning={user.pw2 !== "" && user.pw !== user.pw2}
+        />
+        <WarningText warning={user.pw2 !== "" && user.pw !== user.pw2}>
+          비밀번호를 확인해주세요!
+        </WarningText>
         <BtnWrap>
           <Link to="logIn">로그인</Link>
           <Btn>확인</Btn>
@@ -65,7 +94,12 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
-  margin: 10px 0 5px 0;
+  margin-bottom: 5px;
+  ${(props) =>
+    props.warning &&
+    css`
+      color: #ff7777;
+    `}
 `;
 
 const Input = styled.input`
@@ -76,6 +110,23 @@ const Input = styled.input`
   border: none;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  ${(props) =>
+    props.warning &&
+    css`
+      box-shadow: #ff7777 0px 1px 3px 0px, #ff7777 0px 0px 0px 1px;
+    `}
+`;
+const WarningText = styled.span`
+  margin-top: 5px;
+  font-size: 13px;
+  color: #ff7777;
+  visibility: hidden;
+  ${(props) =>
+    props.warning &&
+    css`
+      color: #ff7777;
+      visibility: visible;
+    `}
 `;
 
 const BtnWrap = styled.div`
@@ -83,10 +134,10 @@ const BtnWrap = styled.div`
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
+  margin-top: 10px;
 `;
 
 const Btn = styled.button`
-  margin-top: 20px;
   padding: 5px 20px;
   outline: none;
   border: none;
