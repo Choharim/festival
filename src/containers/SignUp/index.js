@@ -6,11 +6,13 @@ import useStore from "useStore";
 import { useObserver } from "mobx-react";
 import Agreement from "./_fragments/Agreement";
 import Form from "./_fragments/Form";
+import Success from "./_fragments/Success";
 
 const SignUp = () => {
   const [user, setUser] = useState({ id: "", pw: "", pw2: "" });
   const [users, setUsers] = useState([]);
   const [agreement, setAgreement] = useState([]);
+  const [showSuccess, setShowSuccess] = useState(false);
   const { LogInStore } = useStore();
   let history = useHistory();
 
@@ -37,23 +39,27 @@ const SignUp = () => {
       });
       LogInStore.setUserName(user.id);
       LogInStore.setLogInSuccess(true);
-      history.push("/");
+      setShowSuccess(true);
+      window.setTimeout(() => history.push("/"), 2000);
     }
   };
 
   return useObserver(() => (
-    <Container>
-      <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
-      <FormContainer onSubmit={handleSubmit}>
-        <Form user={user} users={users} setUser={setUser} />
-        <Agreement agreement={agreement} setAgreement={setAgreement} />
-        <Btn>회원가입 완료</Btn>
-      </FormContainer>
-      <div>
-        <LogInText>이미 아이디가 있으신가요?</LogInText>
-        <LogInBtn to="logIn">로그인</LogInBtn>
-      </div>
-    </Container>
+    <>
+      <Container>
+        <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
+        <FormContainer onSubmit={handleSubmit}>
+          <Form user={user} users={users} setUser={setUser} />
+          <Agreement agreement={agreement} setAgreement={setAgreement} />
+          <Btn>회원가입 완료</Btn>
+        </FormContainer>
+        <div>
+          <LogInText>이미 아이디가 있으신가요?</LogInText>
+          <LogInBtn to="logIn">로그인</LogInBtn>
+        </div>
+      </Container>
+      <Success showSuccess={showSuccess} />
+    </>
   ));
 };
 

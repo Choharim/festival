@@ -120,7 +120,7 @@
         "청소년": "7,000원"
       },
       "time": "일몰 후 ~ 23시",
-      "image1": "https://lh3.googleusercontent.com/proxy/rtu1aEVLiu995kCSupZX2Xgz2k5bekHzHofNmg9WLiW-MZm5u5QWmdu2DYMdq76tj6_nKPxv6ZhgAMDHLS0p2epVlORBvIJhw971X53IgXK_a33FKaod_JSTul1iRJvR0H70slDs6-lf37pmpA",
+      "image1": "https://mblogthumb-phinf.pstatic.net/MjAyMDA0MzBfMjc2/MDAxNTg4MjQ5OTE1MjAy.xzt3lXUr7ulKE-kmYF38hAUTTyvw3m5_MxAB9ZbAlM0g.Yc0gA3m6Un6B9OrBiBpqRnb5-wwLFMhbRSZthdpiQowg.JPEG.wansojun/%ED%83%9C%ED%83%9C%EC%93%B0_%EB%84%88%EB%8F%84%EB%B3%B4%EA%B3%A0%EC%8B%B6%EB%84%A4.JPG?type=w800",
       "image2": "https://tong.visitkorea.or.kr/cms/resource/20/2445120_image2_1.JPG"
     },
     {
@@ -175,6 +175,21 @@
       "userName": "jhl8586",
       "password": "1234",
       "id": 6
+    },
+    {
+      "userName": "하",
+      "password": "1234",
+      "id": 7
+    },
+    {
+      "userName": "ㅇ",
+      "password": "ㅇ",
+      "id": 8
+    },
+    {
+      "userName": "하림",
+      "password": "1111",
+      "id": 9
     }
   ]
 }
