@@ -8,12 +8,14 @@ import { FiSun } from "react-icons/fi";
 import { IoIosThunderstorm } from "react-icons/io";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
+import CheckLogOut from "./CheckLogOut";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
   const [showWeather, setShowWeather] = useState(false);
   const [weather, setWeather] = useState({});
   const [weatherLoading, setWeatherLoading] = useState(false);
+  const [checkLogOut, setCheckLogOut] = useState(false);
   const history = useHistory();
   const { LogInStore } = useStore();
 
@@ -60,11 +62,6 @@ const Navbar = () => {
     }
   };
 
-  const logOut = () => {
-    LogInStore.setUserName("");
-    LogInStore.setLogInSuccess(false);
-  };
-
   return useObserver(() => (
     <>
       <NavbarContainer>
@@ -88,7 +85,7 @@ const Navbar = () => {
           <Url to="/festivals">어디갈까, 축제</Url>
           <Url to="/bookMark">가고싶은, 축제</Url>
           {LogInStore.logInSuccess ? (
-            <LogOutBtn onClick={logOut}>로그아웃</LogOutBtn>
+            <LogOutBtn onClick={() => setCheckLogOut(true)}>로그아웃</LogOutBtn>
           ) : (
             <Url to="/logIn">로그인</Url>
           )}
@@ -111,6 +108,11 @@ const Navbar = () => {
         setShowWeather={setShowWeather}
         showWeather={showWeather}
         weather={weather}
+      />
+      <CheckLogOut
+        visible={checkLogOut}
+        setCheckLogOut={setCheckLogOut}
+        checkLogOut={checkLogOut}
       />
     </>
   ));
