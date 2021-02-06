@@ -86,6 +86,7 @@ const FormContainer = styled.form`
 
 const Btn = styled.button`
   width: 100%;
+  margin-top: 20px;
   padding: 20px 0;
   font-size: 18px;
   outline: none;

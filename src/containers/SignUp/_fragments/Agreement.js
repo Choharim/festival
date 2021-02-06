@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Agreement = ({ agreement, setAgreement }) => {
   const hadleChange = (input) => (e) => {
@@ -18,7 +18,15 @@ const Agreement = ({ agreement, setAgreement }) => {
   console.log(agreement);
   return (
     <>
-      <Title>약관 동의</Title>
+      <Title
+        warning={
+          agreement.every((each) => each !== 0) ||
+          agreement.every((each) => each !== 1) ||
+          agreement.every((each) => each !== 2)
+        }
+      >
+        약관 동의
+      </Title>
       <Container>
         <AllApplyWrap>
           <CheckBox
@@ -69,10 +77,15 @@ const Agreement = ({ agreement, setAgreement }) => {
           />
           <div>
             <span>이벤트,알림 메일 및 SMS 수신</span>
-            <SmallText>(선택)</SmallText>
+            <SmallText style={{ color: "black" }}>(선택)</SmallText>
           </div>
         </Wrap>
       </Container>
+      {(agreement.every((each) => each !== 0) ||
+        agreement.every((each) => each !== 1) ||
+        agreement.every((each) => each !== 2)) && (
+        <SmallText>필수 동의 항목입니다</SmallText>
+      )}
     </>
   );
 };
@@ -84,11 +97,17 @@ const Container = styled.div`
   flex-direction: column;
   width: calc(100% - 30px);
   padding: 20px 15px;
-  margin: 5px 0 20px 0;
+  margin: 5px 0;
   border: 1px solid #959494;
 `;
 
-const Title = styled.span``;
+const Title = styled.span`
+  ${(props) =>
+    props.warning &&
+    css`
+      color: #ff7777;
+    `}
+`;
 
 const Wrap = styled.div`
   display: flex;
@@ -115,4 +134,5 @@ const CheckBox = styled.input`
 const SmallText = styled.span`
   margin-left: 5px;
   font-size: 13px;
+  color: #ff7777;
 `;
