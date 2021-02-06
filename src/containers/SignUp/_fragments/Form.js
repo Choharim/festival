@@ -1,44 +1,16 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import axios from "axios";
-import useStore from "useStore";
-import { useObserver } from "mobx-react";
-import { useHistory } from "react-router-dom";
 
 const Form = ({ user, setUser, users }) => {
-  const { LogInStore } = useStore();
   const [idBlur, setIdBlur] = useState(false);
   const [pwBlur, setPwBlur] = useState(false);
-  let history = useHistory();
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (
-      user.id !== "" &&
-      user.pw !== "" &&
-      user.pw === user.pw2 &&
-      users.every((each) => each.userName !== user.id)
-    ) {
-      axios({
-        method: "post",
-        url: "http://localhost:5000/users",
-        data: {
-          userName: user.id,
-          password: user.pw,
-        },
-      });
-      LogInStore.setUserName(user.id);
-      LogInStore.setLogInSuccess(true);
-      history.push("/");
-    }
-  };
-
-  return useObserver(() => (
-    <FormContainer onSubmit={handleSubmit}>
+  return (
+    <>
       <Label
         warning={
           (user.id === "" || users.some((each) => each.userName === user.id)) &&
@@ -99,25 +71,11 @@ const Form = ({ user, setUser, users }) => {
       <WarningText warning={user.pw !== user.pw2 && user.pw2 !== ""}>
         비밀번호를 확인해주세요!
       </WarningText>
-      <Btn>확인</Btn>
-    </FormContainer>
-  ));
+    </>
+  );
 };
 
 export default Form;
-
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  width: 30%;
-  margin: 20px 0;
-
-  @media only screen and (max-width: 900px) {
-    width: 50%;
-  }
-`;
 
 const Label = styled.label`
   margin-bottom: 5px;
@@ -154,15 +112,4 @@ const WarningText = styled.span`
       color: #ff7777;
       visibility: visible;
     `}
-`;
-
-const Btn = styled.button`
-  align-self: flex-end;
-  padding: 5px 20px;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  background-color: transparent;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 `;

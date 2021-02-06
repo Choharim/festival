@@ -1,38 +1,72 @@
 import React from "react";
 import styled from "styled-components";
 
-const Agreement = () => {
+const Agreement = ({ agreement, setAgreement }) => {
+  const hadleChange = (input) => (e) => {
+    if (agreement.length === 4 && input === "all") {
+      setAgreement([]);
+    } else if (input === "all") {
+      setAgreement([...Array(4).keys()]);
+    } else {
+      if (agreement.some((each) => each === input)) {
+        setAgreement(agreement.filter((each) => each !== input));
+      } else {
+        setAgreement([...agreement, input]);
+      }
+    }
+  };
+  console.log(agreement);
   return (
     <>
       <Title>약관 동의</Title>
       <Container>
         <AllApplyWrap>
-          <CheckBox type="checkbox" />
+          <CheckBox
+            type="checkbox"
+            onChange={hadleChange("all")}
+            checked={agreement.length === 4}
+          />
           <span>전체동의</span>
         </AllApplyWrap>
         <Wrap>
-          <CheckBox type="checkbox" />
+          <CheckBox
+            type="checkbox"
+            onChange={hadleChange(0)}
+            checked={agreement.some((each) => each === 0)}
+          />
           <div>
             <span>만 14세 이상입니다.</span>
             <SmallText>(필수)</SmallText>
           </div>
         </Wrap>
         <Wrap>
-          <CheckBox type="checkbox" />
+          <CheckBox
+            type="checkbox"
+            onChange={hadleChange(1)}
+            checked={agreement.some((each) => each === 1)}
+          />
           <div>
             <span>이용약관</span>
             <SmallText>(필수)</SmallText>
           </div>
         </Wrap>
         <Wrap>
-          <CheckBox type="checkbox" />
+          <CheckBox
+            type="checkbox"
+            onChange={hadleChange(2)}
+            checked={agreement.some((each) => each === 2)}
+          />
           <div>
             <span>개인정보처리방침</span>
             <SmallText>(필수)</SmallText>
           </div>
         </Wrap>
         <Wrap>
-          <CheckBox type="checkbox" />
+          <CheckBox
+            type="checkbox"
+            onChange={hadleChange(3)}
+            checked={agreement.some((each) => each === 3)}
+          />
           <div>
             <span>이벤트,알림 메일 및 SMS 수신</span>
             <SmallText>(선택)</SmallText>
@@ -48,9 +82,9 @@ export default Agreement;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(30% - 30px);
+  width: calc(100% - 30px);
   padding: 20px 15px;
-  margin: 10px 0;
+  margin: 5px 0 20px 0;
   border: 1px solid #959494;
 `;
 
