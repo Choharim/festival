@@ -29,8 +29,8 @@ const SignUp = () => {
       users.every((each) => each.userName !== user.id) &&
       user.nickName !== "" &&
       users.every((each) => each.nickName !== user.nickName) &&
-      agreement.length === 3 &&
-      agreement.every((each) => each !== 3)
+      ((agreement.length === 3 && agreement.every((each) => each !== 3)) ||
+        agreement.length === 4)
     ) {
       axios({
         method: "post",

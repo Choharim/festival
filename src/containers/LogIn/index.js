@@ -10,7 +10,6 @@ const LogIn = () => {
   const [user, setUser] = useState({
     id: "",
     pw: "",
-    nickName: "",
   });
   let history = useHistory();
   const { LogInStore } = useStore();
@@ -32,6 +31,7 @@ const LogIn = () => {
           },
           fail: (res) => {
             LogInStore.setUserName("");
+            LogInStore.setNickName("");
             LogInStore.setLogInSuccess(false);
             alert("잘못된 정보입니다.");
           },
