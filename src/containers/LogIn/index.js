@@ -7,7 +7,11 @@ import axios from "axios";
 
 const LogIn = () => {
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({ id: "", pw: "" });
+  const [user, setUser] = useState({
+    id: "",
+    pw: "",
+    nickName: "",
+  });
   let history = useHistory();
   const { LogInStore } = useStore();
   const [idBlur, setIdBlur] = useState(false);
@@ -22,6 +26,7 @@ const LogIn = () => {
           success: (res) => {
             console.log(res);
             LogInStore.setUserName(res.id);
+            LogInStore.setNickName(res.properties.nickname);
             LogInStore.setLogInSuccess(true);
             history.push("/");
           },

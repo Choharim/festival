@@ -6,6 +6,11 @@ const LogInStore = observable({
     this.userName = userName;
   },
 
+  nickName: "",
+  setNickName(nickName) {
+    this.nickName = nickName;
+  },
+
   logInSuccess: false,
   setLogInSuccess(result) {
     this.logInSuccess = result;

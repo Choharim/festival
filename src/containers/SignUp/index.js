@@ -9,7 +9,7 @@ import Form from "./_fragments/Form";
 import Success from "./_fragments/Success";
 
 const SignUp = () => {
-  const [user, setUser] = useState({ id: "", pw: "", pw2: "" });
+  const [user, setUser] = useState({ id: "", pw: "", pw2: "", nickName: "" });
   const [users, setUsers] = useState([]);
   const [agreement, setAgreement] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -26,6 +26,8 @@ const SignUp = () => {
       user.pw !== "" &&
       user.pw === user.pw2 &&
       users.every((each) => each.userName !== user.id) &&
+      user.nickName !== "" &&
+      users.every((each) => each.nickName !== user.nickName) &&
       agreement.length === 3 &&
       agreement.every((each) => each !== 3)
     ) {
@@ -35,9 +37,11 @@ const SignUp = () => {
         data: {
           userName: user.id,
           password: user.pw,
+          nickName: user.nickName,
         },
       });
       LogInStore.setUserName(user.id);
+      LogInStore.setNickName(user.nickName);
       LogInStore.setLogInSuccess(true);
       setShowSuccess(true);
       window.setTimeout(() => history.push("/"), 2000);

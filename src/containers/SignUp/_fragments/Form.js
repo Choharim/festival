@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 const Form = ({ user, setUser, users }) => {
   const [idBlur, setIdBlur] = useState(false);
   const [pwBlur, setPwBlur] = useState(false);
+  const [nickNameBlur, setNickNameBlur] = useState(false);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -70,6 +71,40 @@ const Form = ({ user, setUser, users }) => {
       />
       <WarningText warning={user.pw !== user.pw2 && user.pw2 !== ""}>
         비밀번호를 확인해주세요!
+      </WarningText>
+      <Label
+        warning={
+          (user.nickName === "" ||
+            users.some((each) => each.nickName === user.nickName)) &&
+          nickNameBlur
+        }
+      >
+        닉네임
+      </Label>
+      <Input
+        type="text"
+        value={user.nickName}
+        name="nickName"
+        onChange={(e) => {
+          handleChange(e);
+          setNickNameBlur(true);
+        }}
+        onBlur={() => setNickNameBlur(true)}
+        warning={
+          (user.nickName === "" ||
+            users.some((each) => each.nickName === user.nickName)) &&
+          nickNameBlur
+        }
+      />
+      <WarningText
+        warning={
+          (user.nickName === "" ||
+            users.some((each) => each.nickName === user.nickName)) &&
+          nickNameBlur
+        }
+      >
+        {users.some((each) => each.nickName === user.nickName) &&
+          "이미 존재하는 닉네임입니다!"}
       </WarningText>
     </>
   );

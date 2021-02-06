@@ -149,47 +149,14 @@
     {
       "id": 1,
       "userName": "harim",
+      "nickName": "mori",
       "password": "1234"
-    },
-    {
-      "userName": "harim2",
-      "password": "d",
-      "id": 2
-    },
-    {
-      "userName": "chohaim",
-      "password": "1234",
-      "id": 3
-    },
-    {
-      "userName": "mori",
-      "password": "1234",
-      "id": 4
-    },
-    {
-      "userName": "d",
-      "password": "d",
-      "id": 5
     },
     {
       "userName": "jhl8586",
       "password": "1234",
-      "id": 6
-    },
-    {
-      "userName": "하",
-      "password": "1234",
-      "id": 7
-    },
-    {
-      "userName": "ㅇ",
-      "password": "ㅇ",
-      "id": 8
-    },
-    {
-      "userName": "하림",
-      "password": "1111",
-      "id": 9
+      "nickName": "haha",
+      "id": 2
     }
   ]
 }
