@@ -4,12 +4,15 @@ import styled, { css } from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import useStore from "useStore";
+import { useObserver } from "mobx-react";
 
 const Roulette = ({ festivals }) => {
   const randomNumber = Math.floor(Math.random() * festivals.length);
   const [rouletteArray, setRouletteArray] = useState(festivals);
   const [move, setMove] = useState(true);
   let history = useHistory();
+  const { LogInStore } = useStore();
 
   const startRoulette = () => {
     setRouletteArray([...festivals, festivals[randomNumber]]);
@@ -33,11 +36,14 @@ const Roulette = ({ festivals }) => {
       slide === rouletteArray.length - 1 && setMove(false),
   };
 
-  return (
+  return useObserver(() => (
     <RecommendWap>
       {rouletteArray.length === festivals.length + 1 && (
         <>
           <RouletteContainer>
+            {LogInStore.logInSuccess && (
+              <Hello>안녕하세요, {LogInStore.nickName}님 :)</Hello>
+            )}
             <Text>오늘은</Text>
             <Slider {...settings}>
               {rouletteArray.map((each, index) => (
@@ -86,7 +92,7 @@ const Roulette = ({ festivals }) => {
         </>
       )}
     </RecommendWap>
-  );
+  ));
 };
 
 export default Roulette;
@@ -108,6 +114,13 @@ const RouletteContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
+`;
+
+const Hello = styled.span`
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-align: center;
+  font-family: "Stylish", sans-serif;
 `;
 
 const Text = styled.span`

@@ -19,6 +19,7 @@ const SignUp = () => {
   useEffect(() => {
     axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
   }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (

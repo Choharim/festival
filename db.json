@@ -157,6 +157,12 @@
       "password": "1234",
       "nickName": "haha",
       "id": 2
+    },
+    {
+      "userName": "하",
+      "password": "1234",
+      "nickName": "ha",
+      "id": 3
     }
   ]
 }

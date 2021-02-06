@@ -40,7 +40,7 @@ const Form = ({ user, setUser, users }) => {
           idBlur
         }
       >
-        {user.id === "" ? "아이디를 적어주세요!" : "이미 있는 아이디입니다"}
+        {user.id === "" ? "아이디를 적어주세요!" : "이미 존재하는 아이디입니다"}
       </WarningText>
       <Label warning={user.pw === "" && pwBlur}>비밀번호</Label>
       <Input
@@ -103,8 +103,9 @@ const Form = ({ user, setUser, users }) => {
           nickNameBlur
         }
       >
-        {users.some((each) => each.nickName === user.nickName) &&
-          "이미 존재하는 닉네임입니다!"}
+        {user.nickName === ""
+          ? "닉네임을 적어주세요!"
+          : "이미 존재하는 닉네임입니다"}
       </WarningText>
     </>
   );

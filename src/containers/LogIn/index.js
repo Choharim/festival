@@ -55,6 +55,9 @@ const LogIn = () => {
       )
     ) {
       LogInStore.setUserName(user.id);
+      LogInStore.setNickName(
+        users.find((each) => each.userName === user.id).nickName
+      );
       LogInStore.setLogInSuccess(true);
       history.push("/");
     } else {
