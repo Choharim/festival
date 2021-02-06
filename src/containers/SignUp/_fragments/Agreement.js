@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 const Agreement = ({ agreement, setAgreement }) => {
+  const [warningfirst, setWarningFirst] = useState(false);
+  const [warningsecond, setWarningSecond] = useState(false);
+  const [warningthird, setWarningThird] = useState(false);
+
   const hadleChange = (input) => (e) => {
     if (agreement.length === 4 && input === "all") {
       setAgreement([]);
@@ -10,19 +14,28 @@ const Agreement = ({ agreement, setAgreement }) => {
     } else {
       if (agreement.some((each) => each === input)) {
         setAgreement(agreement.filter((each) => each !== input));
+        if (input === 0) {
+          setWarningFirst(true);
+        } else if (input === 1) {
+          setWarningSecond(true);
+        } else {
+          setWarningThird(true);
+        }
       } else {
         setAgreement([...agreement, input]);
       }
     }
   };
+
   console.log(agreement);
   return (
     <>
       <Title
         warning={
-          agreement.every((each) => each !== 0) ||
-          agreement.every((each) => each !== 1) ||
-          agreement.every((each) => each !== 2)
+          (agreement.every((each) => each !== 0) ||
+            agreement.every((each) => each !== 1) ||
+            agreement.every((each) => each !== 2)) &&
+          (warningfirst || warningsecond || warningthird)
         }
       >
         약관 동의
@@ -41,6 +54,7 @@ const Agreement = ({ agreement, setAgreement }) => {
             type="checkbox"
             onChange={hadleChange(0)}
             checked={agreement.some((each) => each === 0)}
+            warning={agreement.every((each) => each !== 0) && warningfirst}
           />
           <div>
             <span>만 14세 이상입니다.</span>
@@ -52,6 +66,7 @@ const Agreement = ({ agreement, setAgreement }) => {
             type="checkbox"
             onChange={hadleChange(1)}
             checked={agreement.some((each) => each === 1)}
+            warning={agreement.every((each) => each !== 1) && warningsecond}
           />
           <div>
             <span>이용약관</span>
@@ -63,6 +78,7 @@ const Agreement = ({ agreement, setAgreement }) => {
             type="checkbox"
             onChange={hadleChange(2)}
             checked={agreement.some((each) => each === 2)}
+            warning={agreement.every((each) => each !== 2) && warningthird}
           />
           <div>
             <span>개인정보처리방침</span>
@@ -83,9 +99,10 @@ const Agreement = ({ agreement, setAgreement }) => {
       </Container>
       {(agreement.every((each) => each !== 0) ||
         agreement.every((each) => each !== 1) ||
-        agreement.every((each) => each !== 2)) && (
-        <SmallText>필수 동의 항목입니다</SmallText>
-      )}
+        agreement.every((each) => each !== 2)) &&
+        (warningfirst || warningsecond || warningthird) && (
+          <SmallText>필수 동의 항목입니다</SmallText>
+        )}
     </>
   );
 };
@@ -129,6 +146,11 @@ const CheckBox = styled.input`
   width: 18px;
   height: 18px;
   margin-right: 10px;
+  ${(props) =>
+    props.warning &&
+    css`
+      box-shadow: #ff7777 0px 1px 3px 0px, #ff7777 0px 0px 0px 1px;
+    `}
 `;
 
 const SmallText = styled.span`
