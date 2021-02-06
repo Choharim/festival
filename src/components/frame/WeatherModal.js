@@ -1,11 +1,12 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import clear from "images/clear.png";
 import clouds from "images/clouds.png";
 import rain from "images/rain.png";
 import snow from "images/snow.png";
 import thunder from "images/thunder.png";
+import Modal from "components/Modal";
 
 const WeatherModal = ({ showWeather, setShowWeather, weather }) => {
   const weatherIcon = (main) => {
@@ -23,85 +24,32 @@ const WeatherModal = ({ showWeather, setShowWeather, weather }) => {
   };
 
   return (
-    <Bg showWeather={showWeather} onClick={() => setShowWeather(false)}>
-      <ModalContainer
-        showWeather={showWeather}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <CloseBtn onClick={() => setShowWeather(false)} />
-        <Title>오늘의 날씨</Title>
-        {Object.keys(weather).length !== 0 ? (
-          <>
-            <Img src={weatherIcon(weather.weather[0].main)} />
-            <Text>{weather.name}</Text>
-            <TextContainer>
-              <TextBox>
-                <Text>현재 온도 : {weather.main.temp} °C</Text>
-                <Text>최고 온도 : {weather.main.temp_max} °C</Text>
-              </TextBox>
-              <TextBox>
-                <Text>풍속 : {weather.wind.speed} m/s</Text>
-                <Text>최저 온도 : {weather.main.temp_min} °C</Text>
-              </TextBox>
-            </TextContainer>
-          </>
-        ) : (
-          <Text>위치를 켜주세요!</Text>
-        )}
-      </ModalContainer>
-    </Bg>
+    <Modal visible={showWeather} closeModal={() => setShowWeather(false)}>
+      <CloseBtn onClick={() => setShowWeather(false)} />
+      <Title>오늘의 날씨</Title>
+      {Object.keys(weather).length !== 0 ? (
+        <>
+          <Img src={weatherIcon(weather.weather[0].main)} />
+          <Text>{weather.name}</Text>
+          <TextContainer>
+            <TextBox>
+              <Text>현재 온도 : {weather.main.temp} °C</Text>
+              <Text>최고 온도 : {weather.main.temp_max} °C</Text>
+            </TextBox>
+            <TextBox>
+              <Text>풍속 : {weather.wind.speed} m/s</Text>
+              <Text>최저 온도 : {weather.main.temp_min} °C</Text>
+            </TextBox>
+          </TextContainer>
+        </>
+      ) : (
+        <Text>위치를 켜주세요!</Text>
+      )}
+    </Modal>
   );
 };
 
 export default WeatherModal;
-
-const Bg = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 90;
-  transition: 0.4s ease;
-  ${(props) =>
-    props.showWeather &&
-    css`
-      opacity: 1;
-      visibility: visible;
-    `}
-`;
-
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 400px;
-  height: 400px;
-  padding: 20px;
-  border-radius: 15px;
-  background-color: #fff;
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.4s ease;
-  > div {
-    transition: 0.4s ease;
-  }
-
-  ${(props) =>
-    props.showWeather &&
-    css`
-      opacity: 1;
-      visibility: visible;
-    `}
-`;
 
 const CloseBtn = styled(AiOutlineClose)`
   align-self: flex-end;

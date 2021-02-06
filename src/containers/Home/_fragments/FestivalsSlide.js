@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
-import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
+import { BsFillBookmarkFill, BsBookmark, BsArrowRight } from "react-icons/bs";
 
 const FestivalsSlide = ({ festivals }) => {
   const [slideCount, setSlideCount] = useState(3);
@@ -50,7 +50,12 @@ const FestivalsSlide = ({ festivals }) => {
 
   return useObserver(() => (
     <Container>
-      <Title>어디갈까, 축제</Title>
+      <HeadContainer>
+        <Title>어디갈까, 축제</Title>
+        <MoreBtn to="/festivals">
+          축제 더보기 <Arrow />
+        </MoreBtn>
+      </HeadContainer>
       <FestivalsContainer {...settings}>
         {festivals.map((each) => (
           <FestivalCard
@@ -89,10 +94,27 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
+const HeadContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  width: calc(100% - 40px);
+`;
+
 const Title = styled.span`
   font-size: 28px;
-  margin-left: 20px;
   font-family: "Stylish", sans-serif;
+`;
+
+const MoreBtn = styled(Link)`
+  display: flex;
+  align-items: center;
+`;
+
+const Arrow = styled(BsArrowRight)`
+  margin-left: 10px;
+  font-size: 23px;
 `;
 
 const FestivalsContainer = styled(Slider)`
