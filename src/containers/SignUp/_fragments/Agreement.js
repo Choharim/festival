@@ -27,7 +27,6 @@ const Agreement = ({ agreement, setAgreement }) => {
     }
   };
 
-  console.log(agreement);
   return (
     <>
       <Title
