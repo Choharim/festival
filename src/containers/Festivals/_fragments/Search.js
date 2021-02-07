@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
@@ -6,6 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 const Search = ({ getData, festivals, setFestivals }) => {
   const [search, setSearch] = useState("");
   const [similarList, setSimilarList] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
   const history_LS = "searchHistory";
   const date = new Date();
@@ -13,29 +14,15 @@ const Search = ({ getData, festivals, setFestivals }) => {
     date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
   }.${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
 
-  const gethistory_LS = (value) => {
+  useEffect(() => {
     if (JSON.parse(localStorage.getItem(history_LS))) {
-      localStorage.setItem(
-        history_LS,
-        JSON.stringify(
-          JSON.parse(localStorage.getItem(history_LS)).concat({
-            keyWord: value,
-            date: currentDate,
-          })
-        )
-      );
-    } else {
-      localStorage.setItem(
-        history_LS,
-        JSON.stringify([
-          {
-            keyWord: value,
-            date: currentDate,
-          },
-        ])
-      );
+      setSearchHistory(JSON.parse(localStorage.getItem(history_LS)));
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(history_LS, JSON.stringify(searchHistory));
+  }, [searchHistory]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,7 +37,10 @@ const Search = ({ getData, festivals, setFestivals }) => {
           )
       )
     );
-    gethistory_LS(search);
+    setSearchHistory([
+      ...searchHistory,
+      { keyWord: search, date: currentDate },
+    ]);
   };
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -99,8 +89,12 @@ const Search = ({ getData, festivals, setFestivals }) => {
           each.hashTage.some((ele) => ele.includes(word) || word.includes(ele))
       )
     );
-    gethistory_LS(word);
+    setSearchHistory([...searchHistory, { keyWord: word, date: currentDate }]);
     setSimilarList([]);
+  };
+
+  const RemoveSearchHistory = (index) => {
+    setSearchHistory(searchHistory.filter((each, i) => i !== index));
   };
 
   return (
@@ -114,13 +108,11 @@ const Search = ({ getData, festivals, setFestivals }) => {
             value={search}
             onChange={handleChange}
             onFocus={() =>
-              JSON.parse(localStorage.getItem(history_LS)) &&
-              search === "" &&
-              setShowHistory(true)
+              search === "" ? setShowHistory(true) : setShowHistory(false)
             }
           />
         </SearchContainer>
-        {similarList.length !== 0 ? (
+        {similarList.length !== 0 && (
           <SimilarListBox>
             {similarList.map((each, index) => (
               <SimilarListInput key={index} onClick={() => putKeyWord(each)}>
@@ -129,16 +121,17 @@ const Search = ({ getData, festivals, setFestivals }) => {
               </SimilarListInput>
             ))}
           </SimilarListBox>
-        ) : showHistory ? (
+        )}
+        {showHistory && searchHistory.length !== 0 && (
           <SimilarListBox>
-            {JSON.parse(localStorage.getItem(history_LS)).map((obj, index) => (
+            {searchHistory.map((obj, index) => (
               <SimilarListInput key={index}>
-                {obj.keyWord}
-                <CloseIcon />
+                {obj.keyWord} <HistoryDate>{obj.date}</HistoryDate>
+                <CloseIcon onClick={() => RemoveSearchHistory(index)} />
               </SimilarListInput>
             ))}
           </SimilarListBox>
-        ) : null}
+        )}
       </InputListWrap>
     </Wrap>
   );
@@ -189,7 +182,8 @@ const SearchIcon = styled(BsSearch)`
 const CloseIcon = styled(AiOutlineClose)`
   position: absolute;
   right: 0;
-  font-size: 13px;
+  font-size: 16px;
+  color: #959494;
 `;
 
 const SearchInput = styled.input`
@@ -228,4 +222,10 @@ const SimilarListInput = styled.span`
   &:hover {
     background-color: #f2f2f2;
   }
+`;
+
+const HistoryDate = styled.span`
+  margin-left: 10px;
+  font-size: 12px;
+  color: #959494;
 `;
