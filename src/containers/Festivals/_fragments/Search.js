@@ -1,16 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 
 const Search = ({ getData, festivals, setFestivals }) => {
   const [search, setSearch] = useState("");
   const [similarList, setSimilarList] = useState([]);
-  const [keyWord, setKeyWord] = useState([]);
   const keyWord_LS = "keyWord";
-  //키보드로 조절
-  useEffect(() => {
-    setKeyWord(JSON.parse(localStorage.getItem(keyWord_LS)));
-  }, []);
+  const date = new Date();
+  const currentDate = `${
+    date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+  }.${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
+
+  const gethistory_LS = (value) => {
+    if (JSON.parse(localStorage.getItem(keyWord_LS))) {
+      localStorage.setItem(
+        keyWord_LS,
+        JSON.stringify(
+          JSON.parse(localStorage.getItem(keyWord_LS)).concat({
+            keyWord: value,
+            date: currentDate,
+          })
+        )
+      );
+    } else {
+      localStorage.setItem(
+        keyWord_LS,
+        JSON.stringify([
+          {
+            keyWord: value,
+            date: currentDate,
+          },
+        ])
+      );
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +48,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
           )
       )
     );
-    localStorage.setItem(keyWord_LS, JSON.stringify(keyWord.concat([search])));
+    gethistory_LS(search);
   };
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -72,7 +95,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
           each.hashTage.some((ele) => ele.includes(word) || word.includes(ele))
       )
     );
-    localStorage.setItem(keyWord_LS, JSON.stringify(keyWord.concat([word])));
+    gethistory_LS(word);
     setSimilarList([]);
   };
 
