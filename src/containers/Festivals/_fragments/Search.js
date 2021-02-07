@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Search = ({ getData, festivals, setFestivals }) => {
   const [search, setSearch] = useState("");
   const [similarList, setSimilarList] = useState([]);
-  const keyWord_LS = "keyWord";
+  const [showHistory, setShowHistory] = useState(false);
+  const history_LS = "searchHistory";
   const date = new Date();
   const currentDate = `${
     date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
   }.${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
 
   const gethistory_LS = (value) => {
-    if (JSON.parse(localStorage.getItem(keyWord_LS))) {
+    if (JSON.parse(localStorage.getItem(history_LS))) {
       localStorage.setItem(
-        keyWord_LS,
+        history_LS,
         JSON.stringify(
-          JSON.parse(localStorage.getItem(keyWord_LS)).concat({
+          JSON.parse(localStorage.getItem(history_LS)).concat({
             keyWord: value,
             date: currentDate,
           })
@@ -24,7 +26,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
       );
     } else {
       localStorage.setItem(
-        keyWord_LS,
+        history_LS,
         JSON.stringify([
           {
             keyWord: value,
@@ -55,7 +57,9 @@ const Search = ({ getData, festivals, setFestivals }) => {
     if (e.target.value === "") {
       getData();
       setSimilarList([]);
+      setShowHistory(true);
     } else {
+      setShowHistory(false);
       setSimilarList([
         ...new Set(
           [
@@ -105,9 +109,18 @@ const Search = ({ getData, festivals, setFestivals }) => {
       <InputListWrap>
         <SearchContainer onSubmit={handleSubmit}>
           <SearchIcon />
-          <SearchInput type="text" value={search} onChange={handleChange} />
+          <SearchInput
+            type="text"
+            value={search}
+            onChange={handleChange}
+            onFocus={() =>
+              JSON.parse(localStorage.getItem(history_LS)) &&
+              search === "" &&
+              setShowHistory(true)
+            }
+          />
         </SearchContainer>
-        {similarList.length !== 0 && (
+        {similarList.length !== 0 ? (
           <SimilarListBox>
             {similarList.map((each, index) => (
               <SimilarListInput key={index} onClick={() => putKeyWord(each)}>
@@ -116,7 +129,16 @@ const Search = ({ getData, festivals, setFestivals }) => {
               </SimilarListInput>
             ))}
           </SimilarListBox>
-        )}
+        ) : showHistory ? (
+          <SimilarListBox>
+            {JSON.parse(localStorage.getItem(history_LS)).map((obj, index) => (
+              <SimilarListInput key={index}>
+                {obj.keyWord}
+                <CloseIcon />
+              </SimilarListInput>
+            ))}
+          </SimilarListBox>
+        ) : null}
       </InputListWrap>
     </Wrap>
   );
@@ -164,6 +186,12 @@ const SearchIcon = styled(BsSearch)`
   margin-right: 10px;
 `;
 
+const CloseIcon = styled(AiOutlineClose)`
+  position: absolute;
+  right: 0;
+  font-size: 13px;
+`;
+
 const SearchInput = styled.input`
   width: 250px;
   outline: none;
@@ -191,6 +219,9 @@ const SimilarSearchIcon = styled(BsSearch)`
 `;
 
 const SimilarListInput = styled.span`
+  position: relative;
+  display: flex;
+  align-items: center;
   padding: 7px 5px;
   border-radius: 5px;
   cursor: pointer;
