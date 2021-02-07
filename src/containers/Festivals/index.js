@@ -16,7 +16,6 @@ const Festivals = () => {
 
   const getData = () => {
     const response = Promise.resolve(getFestivals());
-
     response.then((data) => {
       setFestivals(data);
     });
@@ -27,6 +26,7 @@ const Festivals = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSimilarList([]);
     setFestivals(
       festivals.filter(
         (each) =>
@@ -38,10 +38,8 @@ const Festivals = () => {
       )
     );
   };
-
   const handleChange = (e) => {
     setSearch(e.target.value);
-
     if (e.target.value === "") {
       getData();
       setSimilarList([]);
@@ -75,6 +73,21 @@ const Festivals = () => {
       ]);
     }
   };
+  const putKeyWord = (keyWord) => {
+    setSearch(keyWord);
+    setFestivals(
+      festivals.filter(
+        (each) =>
+          each.title.includes(keyWord) ||
+          each.subTitle.includes(keyWord) ||
+          each.hashTage.some(
+            (ele) => ele.includes(keyWord) || keyWord.includes(ele)
+          )
+      )
+    );
+    setSimilarList([]);
+  };
+
   console.log(similarList);
 
   return useObserver(() => (
@@ -89,7 +102,7 @@ const Festivals = () => {
           {similarList.length !== 0 && (
             <SimilarListBox>
               {similarList.map((each, index) => (
-                <SimilarListInput key={index}>
+                <SimilarListInput key={index} onClick={() => putKeyWord(each)}>
                   <SimilarSearchIcon />
                   {each}
                 </SimilarListInput>
