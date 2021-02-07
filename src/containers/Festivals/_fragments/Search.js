@@ -91,6 +91,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
     );
     setSearchHistory([...searchHistory, { keyWord: word, date: currentDate }]);
     setSimilarList([]);
+    setShowHistory(false);
   };
 
   const RemoveSearchHistory = (index) => {
@@ -113,27 +114,29 @@ const Search = ({ getData, festivals, setFestivals }) => {
           />
         </SearchContainer>
         {similarList.length !== 0 && (
-          <SimilarListBox>
+          <ListBox>
             {similarList.map((each, index) => (
               <SimilarListInput key={index} onClick={() => putKeyWord(each)}>
                 <SimilarSearchIcon />
                 {each.length > 20 ? `${each.slice(0, 20)}...` : each}
               </SimilarListInput>
             ))}
-          </SimilarListBox>
+          </ListBox>
         )}
         {showHistory && searchHistory.length !== 0 && (
-          <SimilarListBox>
+          <ListBox>
             {searchHistory.map((obj, index) => (
-              <SimilarListInput key={index}>
-                {obj.keyWord.length > 19
-                  ? `${obj.keyWord.slice(0, 19)}...`
-                  : obj.keyWord}
-                <HistoryDate>{obj.date}</HistoryDate>
+              <HistoryListInput key={index}>
+                <HistoryText onClick={() => putKeyWord(obj.keyWord)}>
+                  {obj.keyWord.length > 19
+                    ? `${obj.keyWord.slice(0, 19)}...`
+                    : obj.keyWord}
+                  <HistoryDate>{obj.date}</HistoryDate>
+                </HistoryText>
                 <CloseIcon onClick={() => RemoveSearchHistory(index)} />
-              </SimilarListInput>
+              </HistoryListInput>
             ))}
-          </SimilarListBox>
+          </ListBox>
         )}
       </InputListWrap>
     </Wrap>
@@ -182,20 +185,13 @@ const SearchIcon = styled(BsSearch)`
   margin-right: 10px;
 `;
 
-const CloseIcon = styled(AiOutlineClose)`
-  position: absolute;
-  right: 0;
-  font-size: 16px;
-  color: #959494;
-`;
-
 const SearchInput = styled.input`
   width: 280px;
   outline: none;
   border: none;
 `;
 
-const SimilarListBox = styled.div`
+const ListBox = styled.div`
   position: absolute;
   top: 36px;
   left: 0;
@@ -216,7 +212,6 @@ const SimilarSearchIcon = styled(BsSearch)`
 `;
 
 const SimilarListInput = styled.span`
-  position: relative;
   display: flex;
   align-items: center;
   padding: 7px 5px;
@@ -227,8 +222,29 @@ const SimilarListInput = styled.span`
   }
 `;
 
+const HistoryListInput = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f2f2;
+  }
+`;
+
+const HistoryText = styled.span`
+  width: 100%;
+`;
+
 const HistoryDate = styled.span`
   margin-left: 10px;
   font-size: 12px;
+  color: #959494;
+`;
+
+const CloseIcon = styled(AiOutlineClose)`
+  font-size: 16px;
   color: #959494;
 `;
