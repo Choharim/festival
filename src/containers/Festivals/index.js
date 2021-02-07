@@ -11,6 +11,7 @@ const Festivals = () => {
   const { FavoriteStore } = useStore();
   const [festivals, setFestivals] = useState([]);
   const [search, setSearch] = useState("");
+  const [similarList, setSimilarList] = useState([]);
   let history = useHistory();
 
   const getData = () => {
@@ -37,12 +38,48 @@ const Festivals = () => {
       )
     );
   };
+
+  /* ...festivals.map((each) =>
+        each.hashTage.filter(
+          (ele) => ele.includes(e.target.value) || e.target.value.includes(ele)
+        ).l
+      ),*/
   const handleChange = (e) => {
     setSearch(e.target.value);
+
     if (e.target.value === "") {
       getData();
+    } else {
+      setSimilarList([
+        ...new Set(
+          [
+            ...festivals.map((each) =>
+              each.title.includes(e.target.value) ? each.title : null
+            ),
+            ...festivals.map((each) =>
+              each.subTitle.includes(e.target.value) ? each.subTitle : null
+            ),
+            ...festivals
+              .map((each) =>
+                each.hashTage.some(
+                  (tage) =>
+                    tage.includes(e.target.value) ||
+                    e.target.value.includes(tage)
+                )
+                  ? each.hashTage.filter(
+                      (tage) =>
+                        tage.includes(e.target.value) ||
+                        e.target.value.includes(tage)
+                    )
+                  : null
+              )
+              .flat(Infinity),
+          ].filter((list) => list !== null)
+        ),
+      ]);
     }
   };
+  console.log(similarList);
 
   return useObserver(() => (
     <Container>
@@ -142,6 +179,7 @@ const SearchIcon = styled(BsSearch)`
 `;
 
 const SearchInput = styled.input`
+  width: 250px;
   outline: none;
   border: none;
 `;
