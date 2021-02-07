@@ -39,16 +39,12 @@ const Festivals = () => {
     );
   };
 
-  /* ...festivals.map((each) =>
-        each.hashTage.filter(
-          (ele) => ele.includes(e.target.value) || e.target.value.includes(ele)
-        ).l
-      ),*/
   const handleChange = (e) => {
     setSearch(e.target.value);
 
     if (e.target.value === "") {
       getData();
+      setSimilarList([]);
     } else {
       setSimilarList([
         ...new Set(
@@ -73,7 +69,7 @@ const Festivals = () => {
                     )
                   : null
               )
-              .flat(Infinity),
+              .flat(),
           ].filter((list) => list !== null)
         ),
       ]);
@@ -85,10 +81,22 @@ const Festivals = () => {
     <Container>
       <Wrap>
         <Title>어디갈까, 축제</Title>
-        <SearchContainer onSubmit={handleSubmit}>
-          <SearchIcon />
-          <SearchInput type="text" value={search} onChange={handleChange} />
-        </SearchContainer>
+        <InputListWrap>
+          <SearchContainer onSubmit={handleSubmit}>
+            <SearchIcon />
+            <SearchInput type="text" value={search} onChange={handleChange} />
+          </SearchContainer>
+          {similarList.length !== 0 && (
+            <SimilarListBox>
+              {similarList.map((each, index) => (
+                <SimilarListInput key={index}>
+                  <SimilarSearchIcon />
+                  {each}
+                </SimilarListInput>
+              ))}
+            </SimilarListBox>
+          )}
+        </InputListWrap>
       </Wrap>
       <Wrap>
         {festivals.map((each) => (
@@ -164,6 +172,13 @@ const Wrap = styled.div`
   }
 `;
 
+const InputListWrap = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 const SearchContainer = styled.form`
   padding: 5px 10px;
   border: 1px solid #959494;
@@ -182,6 +197,35 @@ const SearchInput = styled.input`
   width: 250px;
   outline: none;
   border: none;
+`;
+
+const SimilarListBox = styled.div`
+  position: absolute;
+  top: 36px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 10px);
+  padding: 5px;
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  box-shadow: 0 4px 6px 0 rgb(82 91 97 / 18%);
+  border-radius: 5px;
+  z-index: 10;
+`;
+const SimilarSearchIcon = styled(BsSearch)`
+  margin-right: 5px;
+  font-size: 12px;
+  color: #959494;
+`;
+
+const SimilarListInput = styled.span`
+  padding: 7px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f2f2;
+  }
 `;
 
 const FestvivalCard = styled.div`
