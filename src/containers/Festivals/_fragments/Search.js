@@ -117,7 +117,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
             {similarList.map((each, index) => (
               <SimilarListInput key={index} onClick={() => putKeyWord(each)}>
                 <SimilarSearchIcon />
-                {each}
+                {each.length > 20 ? `${each.slice(0, 20)}...` : each}
               </SimilarListInput>
             ))}
           </SimilarListBox>
@@ -126,7 +126,10 @@ const Search = ({ getData, festivals, setFestivals }) => {
           <SimilarListBox>
             {searchHistory.map((obj, index) => (
               <SimilarListInput key={index}>
-                {obj.keyWord} <HistoryDate>{obj.date}</HistoryDate>
+                {obj.keyWord.length > 19
+                  ? `${obj.keyWord.slice(0, 19)}...`
+                  : obj.keyWord}
+                <HistoryDate>{obj.date}</HistoryDate>
                 <CloseIcon onClick={() => RemoveSearchHistory(index)} />
               </SimilarListInput>
             ))}
@@ -187,7 +190,7 @@ const CloseIcon = styled(AiOutlineClose)`
 `;
 
 const SearchInput = styled.input`
-  width: 250px;
+  width: 280px;
   outline: none;
   border: none;
 `;
