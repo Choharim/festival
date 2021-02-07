@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 
 const Search = ({ getData, festivals, setFestivals }) => {
   const [search, setSearch] = useState("");
   const [similarList, setSimilarList] = useState([]);
+  const [keyWord, setKeyWord] = useState([]);
+  const keyWord_LS = "keyWord";
+  //키보드로 조절
+  useEffect(() => {
+    setKeyWord(JSON.parse(localStorage.getItem(keyWord_LS)));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +25,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
           )
       )
     );
+    localStorage.setItem(keyWord_LS, JSON.stringify(keyWord.concat([search])));
   };
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -55,20 +62,20 @@ const Search = ({ getData, festivals, setFestivals }) => {
       ]);
     }
   };
-  const putKeyWord = (keyWord) => {
-    setSearch(keyWord);
+  const putKeyWord = (word) => {
+    setSearch(word);
     setFestivals(
       festivals.filter(
         (each) =>
-          each.title.includes(keyWord) ||
-          each.subTitle.includes(keyWord) ||
-          each.hashTage.some(
-            (ele) => ele.includes(keyWord) || keyWord.includes(ele)
-          )
+          each.title.includes(word) ||
+          each.subTitle.includes(word) ||
+          each.hashTage.some((ele) => ele.includes(word) || word.includes(ele))
       )
     );
+    localStorage.setItem(keyWord_LS, JSON.stringify(keyWord.concat([word])));
     setSimilarList([]);
   };
+
   return (
     <Wrap>
       <Title>어디갈까, 축제</Title>
