@@ -1,14 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "useStore";
 import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getFestivals } from "components/api/api";
 
 const FavoriteFestivals = () => {
   const { LogInStore, FavoriteStore } = useStore();
+  const [festivals, setFestivals] = useState([]);
+
   useEffect(() => {
-    if (!LogInStore.logInSuccess) {
-      alert("로그인을 해주세요!");
+    if (LogInStore.logInSuccess && FavoriteStore.favorite.length !== 0) {
+      const response = Promise.resolve(getFestivals());
+
+      response.then((data) => {
+        setFestivals(
+          FavoriteStore.favorite.map((each) =>
+            data.find((obj) => obj.title === each)
+          )
+        );
+      });
     }
   }, []);
 

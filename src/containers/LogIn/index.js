@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { useHistory, Link } from "react-router-dom";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
-import axios from "axios";
+import { getUsers } from "components/api/api";
 
 const LogIn = () => {
   const [users, setUsers] = useState([]);
@@ -44,7 +44,10 @@ const LogIn = () => {
   }, [history, LogInStore]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
+    const response = Promise.resolve(getUsers());
+    response.then((data) => {
+      setUsers(data);
+    });
   }, []);
 
   const handleSubmit = (e) => {

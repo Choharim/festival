@@ -7,6 +7,7 @@ import { useObserver } from "mobx-react";
 import Agreement from "./_fragments/Agreement";
 import Form from "./_fragments/Form";
 import Success from "./_fragments/Success";
+import { getUsers } from "components/api/api";
 
 const SignUp = () => {
   const [user, setUser] = useState({ id: "", pw: "", pw2: "", nickName: "" });
@@ -17,7 +18,10 @@ const SignUp = () => {
   let history = useHistory();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/users").then((res) => setUsers(res.data));
+    const response = Promise.resolve(getUsers());
+    response.then((data) => {
+      setUsers(data);
+    });
   }, []);
 
   const handleSubmit = (e) => {

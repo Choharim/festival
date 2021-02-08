@@ -175,6 +175,12 @@
       "password": "1234",
       "nickName": "룰",
       "id": 5
+    },
+    {
+      "userName": "모리",
+      "password": "1111",
+      "nickName": "모리",
+      "id": 6
     }
   ]
 }
