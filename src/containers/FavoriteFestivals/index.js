@@ -4,6 +4,7 @@ import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getFestivals } from "components/api/api";
+import List from "./_fragments/List";
 
 const FavoriteFestivals = () => {
   const { LogInStore, FavoriteStore } = useStore();
@@ -12,7 +13,6 @@ const FavoriteFestivals = () => {
   useEffect(() => {
     if (LogInStore.logInSuccess && FavoriteStore.favorite.length !== 0) {
       const response = Promise.resolve(getFestivals());
-
       response.then((data) => {
         setFestivals(
           FavoriteStore.favorite.map((each) =>
@@ -21,17 +21,23 @@ const FavoriteFestivals = () => {
         );
       });
     }
-  }, []);
+  }, [LogInStore, FavoriteStore]);
 
   return useObserver(() => (
-    <Container>
+    <>
       {!LogInStore.logInSuccess ? (
-        <Wrap>
-          <Logo>어디갈까?</Logo>
-          <LogInBtn to="/logIn">로그인 하러가기</LogInBtn>
-        </Wrap>
-      ) : null}
-    </Container>
+        <Container>
+          <Wrap>
+            <Logo>어디갈까?</Logo>
+            <LogInBtn to="/logIn">로그인 하러가기</LogInBtn>
+          </Wrap>
+        </Container>
+      ) : FavoriteStore.favorite.length === 0 ? (
+        <h1>관심축제가 없습니다</h1>
+      ) : (
+        <List festivals={festivals} />
+      )}
+    </>
   ));
 };
 
