@@ -6,25 +6,24 @@ const List = ({ festivals }) => {
   return (
     <FavoriteContainer>
       {festivals.map((each) => (
-        <>
-          <FavoriteCard key={each.id}>
-            <HeadWrap>
-              <Img image={each.image2}></Img>
-              <TitleWrap>
-                <Title>{each.title}</Title>
-                <SubTitle>{each.subTitle}</SubTitle>
-                <div>
-                  {each.hashTage.map((tage, i) => (
-                    <HashTage key={i}>#{tage}</HashTage>
-                  ))}
-                </div>
-              </TitleWrap>
-            </HeadWrap>
-          </FavoriteCard>
+        <FavoriteCard key={each.id}>
+          <HeadWrap>
+            <Img image={each.image2}></Img>
+            <TitleWrap>
+              <Title>{each.title}</Title>
+              <SubTitle>{each.subTitle}</SubTitle>
+              <div>
+                {each.hashTage.map((tage, i) => (
+                  <HashTage key={i}>#{tage}</HashTage>
+                ))}
+              </div>
+            </TitleWrap>
+          </HeadWrap>
+
           <Toggle>
             <h1>hi</h1>
           </Toggle>
-        </>
+        </FavoriteCard>
       ))}
     </FavoriteContainer>
   );

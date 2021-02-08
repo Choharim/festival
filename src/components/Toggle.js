@@ -6,12 +6,10 @@ const Toggle = ({ children }) => {
   const [show, setShow] = useState(false);
 
   return (
-    <>
-      <Container>
-        <UpBtn onClick={() => setShow(!show)} show={show ? "up" : "down"} />
-      </Container>
+    <Container>
+      <UpBtn onClick={() => setShow(!show)} show={show ? "up" : "down"} />
       {show && children}
-    </>
+    </Container>
   );
 };
 
@@ -19,16 +17,14 @@ export default Toggle;
 
 const Container = styled.div`
   position: relative;
-  display: flex;
-  width: 90%;
+  width: 100%;
 `;
 
 const UpBtn = styled(IoIosArrowUp)`
   position: absolute;
   right: 0;
-  top: -50px;
-  margin-left: 15px;
-  font-size: 1.2rem;
+  top: -20px;
+  font-size: 23px;
   color: #493c3b;
   ${(props) =>
     props.show === "up"
