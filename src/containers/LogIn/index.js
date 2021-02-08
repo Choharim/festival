@@ -71,43 +71,45 @@ const LogIn = () => {
 
   return useObserver(() => (
     <Container>
-      <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
-      <Form onSubmit={handleSubmit}>
-        <Label warning={user.id === "" && idBlur}>아이디</Label>
-        <Input
-          type="text"
-          name="id"
-          warning={user.id === "" && idBlur}
-          value={user.id}
-          onChange={(e) => {
-            handleChange(e);
-            setIdBlur(true);
-          }}
-          onBlur={() => setIdBlur(true)}
-        />
-        <WarningText warning={user.id === "" && idBlur}>
-          아이디를 적어주세요
-        </WarningText>
-        <Label warning={user.pw === "" && pwBlur}>비밀번호</Label>
-        <Input
-          type="text"
-          name="pw"
-          warning={user.pw === "" && pwBlur}
-          value={user.pw}
-          onChange={(e) => {
-            handleChange(e);
-            setPwBlur(true);
-          }}
-          onBlur={() => setPwBlur(true)}
-        />
-        <WarningText warning={user.pw === "" && pwBlur}>
-          비밀번호를 적어주세요
-        </WarningText>
-        <BtnWrap>
-          <Link to="signUp"> 회원가입</Link>
-          <Btn>확인</Btn>
-        </BtnWrap>
-      </Form>
+      <Wrap>
+        <Logo onClick={() => history.push("/")}>어디갈까?</Logo>
+        <Form onSubmit={handleSubmit}>
+          <Label warning={user.id === "" && idBlur}>아이디</Label>
+          <Input
+            type="text"
+            name="id"
+            warning={user.id === "" && idBlur}
+            value={user.id}
+            onChange={(e) => {
+              handleChange(e);
+              setIdBlur(true);
+            }}
+            onBlur={() => setIdBlur(true)}
+          />
+          <WarningText warning={user.id === "" && idBlur}>
+            아이디를 적어주세요
+          </WarningText>
+          <Label warning={user.pw === "" && pwBlur}>비밀번호</Label>
+          <Input
+            type="text"
+            name="pw"
+            warning={user.pw === "" && pwBlur}
+            value={user.pw}
+            onChange={(e) => {
+              handleChange(e);
+              setPwBlur(true);
+            }}
+            onBlur={() => setPwBlur(true)}
+          />
+          <WarningText warning={user.pw === "" && pwBlur}>
+            비밀번호를 적어주세요
+          </WarningText>
+          <BtnWrap>
+            <Link to="signUp"> 회원가입</Link>
+            <Btn>확인</Btn>
+          </BtnWrap>
+        </Form>
+      </Wrap>
       <KaKaoBtn id="kakao-login-btn"></KaKaoBtn>
     </Container>
   ));
@@ -119,11 +121,21 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  height: calc(100vh - 108.8px);
+`;
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
 `;
 
 const Logo = styled.span`
-  margin-top: 40px;
+  margin-bottom: 50px;
   font-size: 38px;
   font-family: "Stylish", sans-serif;
   cursor: pointer;
@@ -135,7 +147,6 @@ const Form = styled.form`
   align-items: flex-start;
   justify-content: center;
   width: 30%;
-  margin: 20px 0;
 
   @media only screen and (max-width: 900px) {
     width: 50%;

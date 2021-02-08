@@ -3,9 +3,10 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import HomePage from "pages/Home/index";
 import FestivalsPage from "pages/Festivals/index";
-import FastivalDetailsPage from "pages/FestivalDetails/index";
+import FestivalDetailsPage from "pages/FestivalDetails/index";
 import LogInPage from "pages/LogIn/index";
 import SignUpPage from "pages/SignUp/index";
+import FavoriteFestivalsPage from "pages/FavoriteFestivals/index";
 
 const App = () => {
   return (
@@ -20,13 +21,16 @@ const App = () => {
             <FestivalsPage />
           </Route>
           <Route path="/festivals/:id" exact>
-            <FastivalDetailsPage />
+            <FestivalDetailsPage />
           </Route>
           <Route path="/logIn" exact>
             <LogInPage />
           </Route>
           <Route path="/signUp" exact>
             <SignUpPage />
+          </Route>
+          <Route path="/favorite" exact>
+            <FavoriteFestivalsPage />
           </Route>
         </Switch>
       </Router>

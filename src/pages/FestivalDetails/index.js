@@ -1,13 +1,13 @@
 import React from "react";
 import Frame from "components/frame/Frame";
-import FastivalDetails from "containers/FastivalDetails/index";
+import FestivalDetails from "containers/FastivalDetails/index";
 
-const FastivalDetailsPage = () => {
+const FestivalDetailsPage = () => {
   return (
     <Frame>
-      <FastivalDetails />
+      <FestivalDetails />
     </Frame>
   );
 };
 
-export default FastivalDetailsPage;
+export default FestivalDetailsPage;

@@ -7,7 +7,7 @@ import Head from "./_fragments/Head";
 import Details from "./_fragments/Details";
 import Map from "./_fragments/Map";
 
-const FastivalDetails = () => {
+const FestivalDetails = () => {
   let location = useLocation();
   let history = useHistory();
 
@@ -37,7 +37,7 @@ const FastivalDetails = () => {
   );
 };
 
-export default FastivalDetails;
+export default FestivalDetails;
 
 const Container = styled.div`
   display: flex;

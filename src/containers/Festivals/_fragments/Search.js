@@ -79,7 +79,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
       ]);
     }
   };
-  const putKeyWord = (word) => {
+  const putKeyWord = (word, name) => {
     setSearch(word);
     setFestivals(
       festivals.filter(
@@ -89,7 +89,12 @@ const Search = ({ getData, festivals, setFestivals }) => {
           each.hashTage.some((ele) => ele.includes(word) || word.includes(ele))
       )
     );
-    setSearchHistory([...searchHistory, { keyWord: word, date: currentDate }]);
+    if (name === "similar") {
+      setSearchHistory([
+        ...searchHistory,
+        { keyWord: word, date: currentDate },
+      ]);
+    }
     setSimilarList([]);
     setShowHistory(false);
   };
@@ -116,7 +121,10 @@ const Search = ({ getData, festivals, setFestivals }) => {
         {similarList.length !== 0 && (
           <ListBox>
             {similarList.map((each, index) => (
-              <SimilarListInput key={index} onClick={() => putKeyWord(each)}>
+              <SimilarListInput
+                key={index}
+                onClick={() => putKeyWord(each, "similar")}
+              >
                 <SimilarSearchIcon />
                 {each.length > 20 ? `${each.slice(0, 20)}...` : each}
               </SimilarListInput>
@@ -127,7 +135,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
           <ListBox>
             {searchHistory.map((obj, index) => (
               <HistoryListInput key={index}>
-                <HistoryText onClick={() => putKeyWord(obj.keyWord)}>
+                <HistoryText onClick={() => putKeyWord(obj.keyWord, "history")}>
                   {obj.keyWord.length > 19
                     ? `${obj.keyWord.slice(0, 19)}...`
                     : obj.keyWord}

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+
 const Map = ({ address, title }) => {
   const script = document.createElement("script");
   script.async = true;

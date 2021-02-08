@@ -10,7 +10,7 @@ import { BsFillBookmarkFill, BsBookmark, BsArrowRight } from "react-icons/bs";
 
 const FestivalsSlide = ({ festivals }) => {
   const [slideCount, setSlideCount] = useState(3);
-  const { FavoriteStore } = useStore();
+  const { FavoriteStore, LogInStore } = useStore();
   let history = useHistory();
 
   const updateSize = () => {
@@ -75,7 +75,13 @@ const FestivalsSlide = ({ festivals }) => {
                 onClick={() => FavoriteStore.getFavorite(each.title)}
               />
             ) : (
-              <BookMark onClick={() => FavoriteStore.getFavorite(each.title)} />
+              <BookMark
+                onClick={() => {
+                  LogInStore.logInSuccess
+                    ? FavoriteStore.getFavorite(each.title)
+                    : alert("로그인을 해주세요!");
+                }}
+              />
             )}
             <Name>{each.title}</Name>
           </FestivalCard>

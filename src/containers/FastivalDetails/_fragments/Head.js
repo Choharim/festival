@@ -5,7 +5,7 @@ import useStore from "useStore";
 import { useObserver } from "mobx-react";
 
 const Head = ({ festival }) => {
-  const { FavoriteStore } = useStore();
+  const { FavoriteStore, LogInStore } = useStore();
 
   return useObserver(() => (
     <>
@@ -27,7 +27,13 @@ const Head = ({ festival }) => {
             onClick={() => FavoriteStore.getFavorite(festival.title)}
           />
         ) : (
-          <BookMark onClick={() => FavoriteStore.getFavorite(festival.title)} />
+          <BookMark
+            onClick={() => {
+              LogInStore.logInSuccess
+                ? FavoriteStore.getFavorite(festival.title)
+                : alert("로그인을 해주세요!");
+            }}
+          />
         )}
       </HeadContainer>
     </>

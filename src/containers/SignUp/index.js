@@ -75,10 +75,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  padding: 20px 0;
 `;
 
 const Logo = styled.span`
-  margin-top: 40px;
   font-size: 38px;
   font-family: "Stylish", sans-serif;
   cursor: pointer;

@@ -7,7 +7,7 @@ import { BiError } from "react-icons/bi";
 import { useHistory } from "react-router-dom";
 
 const List = ({ festivals }) => {
-  const { FavoriteStore } = useStore();
+  const { FavoriteStore, LogInStore } = useStore();
   let history = useHistory();
 
   return useObserver(() => (
@@ -30,7 +30,13 @@ const List = ({ festivals }) => {
                 onClick={() => FavoriteStore.getFavorite(each.title)}
               />
             ) : (
-              <BookMark onClick={() => FavoriteStore.getFavorite(each.title)} />
+              <BookMark
+                onClick={() => {
+                  LogInStore.logInSuccess
+                    ? FavoriteStore.getFavorite(each.title)
+                    : alert("로그인을 해주세요!");
+                }}
+              />
             )}
           </Img>
           <TextWrap>

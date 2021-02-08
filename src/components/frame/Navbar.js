@@ -83,7 +83,7 @@ const Navbar = () => {
         <UrlBox>
           <Url to="/">홈</Url>
           <Url to="/festivals">어디갈까, 축제</Url>
-          <Url to="/bookMark">가고싶은, 축제</Url>
+          <Url to="/favorite">가고싶은, 축제</Url>
           {LogInStore.logInSuccess ? (
             <LogOutBtn onClick={() => setCheckLogOut(true)}>로그아웃</LogOutBtn>
           ) : (
