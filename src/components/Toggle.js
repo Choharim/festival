@@ -23,7 +23,7 @@ const Container = styled.div`
 const UpBtn = styled(IoIosArrowUp)`
   position: absolute;
   right: 0;
-  top: -20px;
+  top: -30px;
   font-size: 23px;
   color: #493c3b;
   ${(props) =>
