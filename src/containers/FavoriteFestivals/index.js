@@ -42,7 +42,7 @@ const FavoriteFestivals = () => {
           </Wrap>
         </Container>
       ) : (
-        <List festivals={festivals} />
+        <List festivals={festivals} setFestivals={setFestivals} />
       )}
     </>
   ));

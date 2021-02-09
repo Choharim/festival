@@ -3,56 +3,77 @@ import styled from "styled-components";
 import Toggle from "components/Toggle";
 import noCheck from "images/noCheck.png";
 import yesCheck from "images/yesCheck.png";
+import { BsTrash } from "react-icons/bs";
+import useStore from "useStore";
+import { useObserver } from "mobx-react";
 
-const List = ({ festivals }) => {
+const List = ({ festivals, setFestivals }) => {
   const [remove, setRemove] = useState([]);
+  const { FavoriteStore } = useStore();
 
-  const handleCheck = (input) => (e) => {
-    if (input === "all" && remove.length === festivals.length) {
+  const handleCheck = (title) => (e) => {
+    if (title === "all" && remove.length === festivals.length) {
       setRemove([]);
-    } else if (input === "all" && remove.length !== festivals.length) {
-      setRemove([...Array(festivals.length).keys()]);
+    } else if (title === "all" && remove.length !== festivals.length) {
+      setRemove(festivals.map((each) => each.title));
     } else {
-      if (remove.some((each) => each === input)) {
-        setRemove(remove.filter((each) => each !== input));
+      if (remove.some((each) => each === title)) {
+        setRemove(remove.filter((each) => each !== title));
       } else {
-        setRemove([...remove, input]);
+        setRemove([...remove, title]);
       }
     }
   };
+
+  const removeChecked = () => {
+    setFestivals(
+      festivals.filter((each) => !remove.some((i) => i === each.title))
+    );
+    FavoriteStore.upDateFavorite(
+      FavoriteStore.favorite.filter((each) => !remove.some((i) => i === each))
+    );
+    setRemove([]);
+  };
+
   console.log(remove);
-  return (
+  return useObserver(() => (
     <FavoriteContainer>
       <HeadContainer>
         <Subject>가고싶은, 축제</Subject>
         {remove.length === festivals.length ? (
-          <CheckCustom
-            image={yesCheck}
-            onClick={handleCheck("all")}
-          ></CheckCustom>
+          <IconWrap>
+            <CheckCustom
+              image={yesCheck}
+              onClick={handleCheck("all")}
+            ></CheckCustom>
+            <Trash onClick={removeChecked} />
+          </IconWrap>
         ) : (
-          <CheckCustom
-            image={noCheck}
-            onClick={handleCheck("all")}
-          ></CheckCustom>
+          <IconWrap>
+            <CheckCustom
+              image={noCheck}
+              onClick={handleCheck("all")}
+            ></CheckCustom>
+            <Trash onClick={removeChecked} />
+          </IconWrap>
         )}
       </HeadContainer>
-      {festivals.map((each, index) => (
+      {festivals.map((each) => (
         <FavoriteCard key={each.id}>
           <HeadWrap>
             <Img image={each.image2}></Img>
             <TitleWrap>
               <HeadContainer style={{ margin: "0" }}>
                 <Title>{each.title}</Title>
-                {remove.some((each) => each === index) ? (
+                {remove.some((ele) => ele === each.title) ? (
                   <CheckCustom
                     image={yesCheck}
-                    onClick={handleCheck(index)}
+                    onClick={handleCheck(each.title)}
                   ></CheckCustom>
                 ) : (
                   <CheckCustom
                     image={noCheck}
-                    onClick={handleCheck(index)}
+                    onClick={handleCheck(each.title)}
                   ></CheckCustom>
                 )}
               </HeadContainer>
@@ -100,7 +121,7 @@ const List = ({ festivals }) => {
         </FavoriteCard>
       ))}
     </FavoriteContainer>
-  );
+  ));
 };
 
 export default List;
@@ -124,6 +145,16 @@ const HeadContainer = styled.div`
 const Subject = styled.span`
   font-size: 28px;
   font-family: "Stylish", sans-serif;
+`;
+
+const IconWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Trash = styled(BsTrash)`
+  font-size: 32px;
+  cursor: pointer;
 `;
 
 const CheckCustom = styled.div`

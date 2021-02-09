@@ -9,6 +9,9 @@ const FavoriteStore = observable({
       this.favorite = [...this.favorite, fav];
     }
   },
+  upDateFavorite(fav) {
+    this.favorite = fav;
+  },
 });
 
 export { FavoriteStore };
