@@ -33,7 +33,14 @@ const FavoriteFestivals = () => {
           </Wrap>
         </Container>
       ) : FavoriteStore.favorite.length === 0 ? (
-        <h1>관심축제가 없습니다</h1>
+        <Container>
+          <Wrap>
+            <Logo>텅...</Logo>
+            <LogInBtn to="/festivals" style={{ padding: "20px 35px" }}>
+              축제 보러가기
+            </LogInBtn>
+          </Wrap>
+        </Container>
       ) : (
         <List festivals={festivals} />
       )}

@@ -1,16 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Toggle from "components/Toggle";
+import noCheck from "images/noCheck.png";
+import yesCheck from "images/yesCheck.png";
 
 const List = ({ festivals }) => {
+  const [remove, setRemove] = useState([]);
+
+  const handleCheck = (input) => (e) => {
+    if (input === "all" && remove.length === festivals.length) {
+      setRemove([]);
+    } else if (input === "all" && remove.length !== festivals.length) {
+      setRemove([...Array(festivals.length).keys()]);
+    } else {
+      if (remove.some((each) => each === input)) {
+        setRemove(remove.filter((each) => each !== input));
+      } else {
+        setRemove([...remove, input]);
+      }
+    }
+  };
+  console.log(remove);
   return (
     <FavoriteContainer>
-      {festivals.map((each) => (
+      <HeadContainer>
+        <Subject>가고싶은, 축제</Subject>
+        {remove.length === festivals.length ? (
+          <CheckCustom
+            image={yesCheck}
+            onClick={handleCheck("all")}
+          ></CheckCustom>
+        ) : (
+          <CheckCustom
+            image={noCheck}
+            onClick={handleCheck("all")}
+          ></CheckCustom>
+        )}
+      </HeadContainer>
+      {festivals.map((each, index) => (
         <FavoriteCard key={each.id}>
           <HeadWrap>
             <Img image={each.image2}></Img>
             <TitleWrap>
-              <Title>{each.title}</Title>
+              <HeadContainer style={{ margin: "0" }}>
+                <Title>{each.title}</Title>
+                {remove.some((each) => each === index) ? (
+                  <CheckCustom
+                    image={yesCheck}
+                    onClick={handleCheck(index)}
+                  ></CheckCustom>
+                ) : (
+                  <CheckCustom
+                    image={noCheck}
+                    onClick={handleCheck(index)}
+                  ></CheckCustom>
+                )}
+              </HeadContainer>
               <SubTitle>{each.subTitle}</SubTitle>
               <div>
                 {each.hashTage.map((tage, i) => (
@@ -38,11 +83,11 @@ const List = ({ festivals }) => {
               <DetailWrap>
                 <Text>요금</Text>
                 <Contents>
-                  {Object.entries(each.fee).map((arr) => (
-                    <>
+                  {Object.entries(each.fee).map((arr, i) => (
+                    <div key={i}>
                       <span>{arr[0]} : </span>
-                      <span style={{ marginRight: "10px" }}>{arr[1]}</span>
-                    </>
+                      <span>{arr[1]}</span>
+                    </div>
                   ))}
                 </Contents>
               </DetailWrap>
@@ -63,16 +108,37 @@ export default List;
 const FavoriteContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  width: calc(100% - 40px);
+  padding: 20px;
+`;
+
+const HeadContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  margin-bottom: 20px;
+`;
+
+const Subject = styled.span`
+  font-size: 28px;
+  font-family: "Stylish", sans-serif;
+`;
+
+const CheckCustom = styled.div`
+  background-image: url(${(props) => props.image});
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 `;
 
 const FavoriteCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 90%;
+  width: calc(100% - 20px);
   padding: 10px 10px 0;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
@@ -103,6 +169,7 @@ const TitleWrap = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const Title = styled.span`
