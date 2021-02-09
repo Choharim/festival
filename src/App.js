@@ -7,6 +7,7 @@ import FestivalDetailsPage from "pages/FestivalDetails/index";
 import LogInPage from "pages/LogIn/index";
 import SignUpPage from "pages/SignUp/index";
 import FavoriteFestivalsPage from "pages/FavoriteFestivals/index";
+import ChatBotPage from "pages/ChatBot/index";
 
 const App = () => {
   return (
@@ -31,6 +32,9 @@ const App = () => {
           </Route>
           <Route path="/favorite" exact>
             <FavoriteFestivalsPage />
+          </Route>
+          <Route path="/chatBot" exact>
+            <ChatBotPage />
           </Route>
         </Switch>
       </Router>
