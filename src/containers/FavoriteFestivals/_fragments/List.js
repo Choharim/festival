@@ -35,7 +35,6 @@ const List = ({ festivals, setFestivals }) => {
     setRemove([]);
   };
 
-  console.log(remove);
   return useObserver(() => (
     <FavoriteContainer>
       <HeadContainer>
@@ -153,15 +152,16 @@ const IconWrap = styled.div`
 `;
 
 const Trash = styled(BsTrash)`
-  font-size: 32px;
+  margin-left: 10px;
+  font-size: 25px;
   cursor: pointer;
 `;
 
 const CheckCustom = styled.div`
   background-image: url(${(props) => props.image});
   background-size: contain;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 `;
 
