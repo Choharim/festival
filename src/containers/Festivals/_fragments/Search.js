@@ -34,7 +34,10 @@ const Search = ({ getData, festivals, setFestivals }) => {
             lat: data.coords.latitude,
             lon: data.coords.longitude,
           }),
-        () => alert("위치를 설정해주세요!")
+        () => {
+          alert("위치를 설정해주세요!");
+          setDragRight(false);
+        }
       );
     }
   }, [dragRight]);

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Map = ({ address, title }) => {
+const Map = ({ address, title, geolocation }) => {
+  const [currentAddress, setCurrentAddress] = useState("");
   const script = document.createElement("script");
   script.async = true;
   script.src = `https:////dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_MAP_KEY}&libraries=services&autoload=false`;
@@ -18,6 +19,15 @@ const Map = ({ address, title }) => {
         };
         const map = new kakao.maps.Map(container, options);
         const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.coord2Address(
+          geolocation.lon,
+          geolocation.lat,
+          (result, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+              setCurrentAddress(result[0].address.address_name);
+            }
+          }
+        );
         const showMap = (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
             const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -26,22 +36,17 @@ const Map = ({ address, title }) => {
               position: coords,
               clickable: true,
             });
-
             const infowindow = new kakao.maps.InfoWindow({
-              content: `<div style="width:150px;text-align:center;padding:6px 0;">${title}</=https:>`,
+              content: `<div style="width:150px;text-align:center;padding:6px 0;">${title}<a href="https://map.kakao.com/?sName=${currentAddress}&eName=${address}" style="color:blue" target="_blank"> 길찾기 </a></=https:>`,
             });
-
             infowindow.open(map, marker);
             map.setCenter(coords);
-            kakao.maps.event.addListener(marker, "click", () => {
-              console.log("길찾기로 바로이동");
-            });
           }
         };
         geocoder.addressSearch(address, showMap);
       });
     };
-  }, [address, title, script]);
+  }, [address, title, script, currentAddress, geolocation]);
 
   return <MapContainer id="myMap"></MapContainer>;
 };

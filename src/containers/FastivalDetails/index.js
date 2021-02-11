@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import Details from "./_fragments/Details";
 import Map from "./_fragments/Map";
 
 const FestivalDetails = () => {
+  const [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
   let location = useLocation();
   let history = useHistory();
 
@@ -16,6 +17,17 @@ const FestivalDetails = () => {
       history.push("/festivals");
     }
   }, [history, location]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (data) =>
+        setGeolocation({
+          lat: data.coords.latitude,
+          lon: data.coords.longitude,
+        }),
+      () => alert("위치를 설정해주세요!")
+    );
+  }, []);
 
   return (
     <>
@@ -29,6 +41,7 @@ const FestivalDetails = () => {
             <Map
               address={location.state.festival.address}
               title={location.state.festival.title}
+              geolocation={geolocation}
             />
           </DesContainer>
         </Container>
