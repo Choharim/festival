@@ -31,6 +31,7 @@ const ChatBotIcon = styled.div`
   border-radius: 50%;
   background-size: contain;
   background-image: url(${(props) => props.image});
+  background-color: #fff;
   cursor: pointer;
 `;
 

@@ -63,8 +63,8 @@ const Title = styled.span`
 `;
 
 const Img = styled.img`
-  width: 40%;
-  height: 40%;
+  width: 200px;
+  height: 200px;
 `;
 
 const Text = styled.span`
@@ -78,7 +78,7 @@ const TextContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 100%;
+  width: 360px;
 `;
 
 const TextBox = styled.div`

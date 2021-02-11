@@ -78,7 +78,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+
   padding: 20px 0;
 `;
 
@@ -93,12 +93,8 @@ const FormContainer = styled.form`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 30%;
+  width: 400px;
   margin: 20px 0;
-
-  @media only screen and (max-width: 900px) {
-    width: 50%;
-  }
 `;
 
 const Btn = styled.button`

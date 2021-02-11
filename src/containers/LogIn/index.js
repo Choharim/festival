@@ -134,7 +134,6 @@ const Wrap = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 `;
 
 const Logo = styled.span`
@@ -149,10 +148,10 @@ const Form = styled.form`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 30%;
+  width: 400px;
 
   @media only screen and (max-width: 900px) {
-    width: 50%;
+    //  width: 50%;
   }
 `;
 
@@ -213,7 +212,7 @@ const Btn = styled.button`
 `;
 
 const KaKaoBtn = styled.button`
-  width: 30%;
+  width: 400px;
   border-radius: 10px;
   outline: none;
   border: none;
@@ -223,6 +222,6 @@ const KaKaoBtn = styled.button`
   }
 
   @media only screen and (max-width: 900px) {
-    width: 50%;
+    // width: 50%;
   }
 `;

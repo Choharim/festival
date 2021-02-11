@@ -1,6 +1,6 @@
 import React from "react";
-import Frame from "components/frame/Frame";
 import ChatBot from "containers/ChatBot/index";
+import Frame from "components/frame/Frame";
 
 const ChatBotPage = () => {
   return (
