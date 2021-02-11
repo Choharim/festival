@@ -106,7 +106,6 @@ const ChatBot = () => {
       setText("");
     }
   };
-  console.log(chat);
 
   return useObserver(() => (
     <Container>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -8,6 +8,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
   const [similarList, setSimilarList] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [dragRight, setDragRight] = useState(false);
   const history_LS = "searchHistory";
   const date = new Date();
   const currentDate = `${
@@ -106,47 +107,60 @@ const Search = ({ getData, festivals, setFestivals }) => {
   return (
     <Wrap>
       <Title>어디갈까, 축제</Title>
-      <InputListWrap>
-        <SearchContainer onSubmit={handleSubmit}>
-          <SearchIcon />
-          <SearchInput
-            type="text"
-            value={search}
-            onChange={handleChange}
-            onFocus={() =>
-              search === "" ? setShowHistory(true) : setShowHistory(false)
-            }
-          />
-        </SearchContainer>
-        {similarList.length !== 0 && (
-          <ListBox>
-            {similarList.map((each, index) => (
-              <SimilarListInput
-                key={index}
-                onClick={() => putKeyWord(each, "similar")}
-              >
-                <SimilarSearchIcon />
-                {each.length > 20 ? `${each.slice(0, 20)}...` : each}
-              </SimilarListInput>
-            ))}
-          </ListBox>
-        )}
-        {showHistory && searchHistory.length !== 0 && (
-          <ListBox>
-            {searchHistory.map((obj, index) => (
-              <HistoryListInput key={index}>
-                <HistoryText onClick={() => putKeyWord(obj.keyWord, "history")}>
-                  {obj.keyWord.length > 19
-                    ? `${obj.keyWord.slice(0, 19)}...`
-                    : obj.keyWord}
-                  <HistoryDate>{obj.date}</HistoryDate>
-                </HistoryText>
-                <CloseIcon onClick={() => RemoveSearchHistory(index)} />
-              </HistoryListInput>
-            ))}
-          </ListBox>
-        )}
-      </InputListWrap>
+      <>
+        <InputListWrap>
+          <SearchContainer onSubmit={handleSubmit}>
+            <SearchIcon />
+            <SearchInput
+              type="text"
+              value={search}
+              onChange={handleChange}
+              onFocus={() =>
+                search === "" ? setShowHistory(true) : setShowHistory(false)
+              }
+            />
+          </SearchContainer>
+          {similarList.length !== 0 && (
+            <ListBox>
+              {similarList.map((each, index) => (
+                <SimilarListInput
+                  key={index}
+                  onClick={() => putKeyWord(each, "similar")}
+                >
+                  <SimilarSearchIcon />
+                  {each.length > 20 ? `${each.slice(0, 20)}...` : each}
+                </SimilarListInput>
+              ))}
+            </ListBox>
+          )}
+          {showHistory && searchHistory.length !== 0 && (
+            <ListBox>
+              {searchHistory.map((obj, index) => (
+                <HistoryListInput key={index}>
+                  <HistoryText
+                    onClick={() => putKeyWord(obj.keyWord, "history")}
+                  >
+                    {obj.keyWord.length > 19
+                      ? `${obj.keyWord.slice(0, 19)}...`
+                      : obj.keyWord}
+                    <HistoryDate>{obj.date}</HistoryDate>
+                  </HistoryText>
+                  <CloseIcon onClick={() => RemoveSearchHistory(index)} />
+                </HistoryListInput>
+              ))}
+            </ListBox>
+          )}
+        </InputListWrap>
+        <DragSwitchWrap>
+          <DragSwitchText>내 위치</DragSwitchText>
+          <DragSwitch
+            dragRight={dragRight}
+            onClick={() => setDragRight(!dragRight)}
+          >
+            <Switch dragPosition={dragRight ? "4px" : "44px"}></Switch>
+          </DragSwitch>
+        </DragSwitchWrap>
+      </>
     </Wrap>
   );
 };
@@ -160,7 +174,7 @@ const Title = styled.span`
 
 const Wrap = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   flex-wrap: wrap;
   &:first-child {
@@ -255,4 +269,46 @@ const HistoryDate = styled.span`
 const CloseIcon = styled(AiOutlineClose)`
   font-size: 16px;
   color: #959494;
+`;
+
+const DragSwitchWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const DragSwitchText = styled.span`
+  font-size: 13px;
+  font-weight: bolder;
+  margin-right: 5px;
+`;
+
+const DragSwitch = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 60px;
+  height: 20px;
+  padding: 4px;
+  border-radius: 20px;
+
+  cursor: pointer;
+  ${(props) =>
+    props.dragRight
+      ? css`
+          background-color: #01d0fb;
+        `
+      : css`
+          background-color: #959494;
+        `}
+`;
+
+const Switch = styled.div`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  right: ${(props) => props.dragPosition};
+  transition: 0.3s ease;
 `;
