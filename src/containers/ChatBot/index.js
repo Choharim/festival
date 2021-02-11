@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { FaRegPaperPlane } from "react-icons/fa";
+import { FaRegPaperPlane, FaRegSmile, FaRegSadCry } from "react-icons/fa";
+import { CgSmileSad } from "react-icons/cg";
 import { useObserver } from "mobx-react";
 import useStore from "useStore";
 import { getFestivals } from "components/api/api";
@@ -15,6 +16,7 @@ const ChatBot = () => {
   const [userSuccess, setUserSuccess] = useState(false);
   const [botSuccess, setBotSuccess] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
+  const [showImoji, setShowImoji] = useState(false);
   const [festivalIndex, setFestivalIndex] = useState(0);
   const { LogInStore } = useStore();
   let history = useHistory();
@@ -91,14 +93,18 @@ const ChatBot = () => {
 
   const handleChange = (e) => {
     if (chat.length % 2 === 1) {
-      setText(e.target.value);
-      setUserSuccess(false);
+      if (typeof text === String) {
+        setText(e.target.value);
+        setUserSuccess(false);
+      }
     }
   };
   const handleEnter = (input) => {
-    setChat([...chat, { text: input, loading: false }]);
-    setUserSuccess(true);
-    setText("");
+    if (!showBtn) {
+      setChat([...chat, { text: input, loading: false }]);
+      setUserSuccess(true);
+      setText("");
+    }
   };
   console.log(chat);
 
@@ -153,6 +159,14 @@ const ChatBot = () => {
           )}
         </Body>
         <Foot>
+          {showImoji && (
+            <ImojiContainer>
+              <Sad onClick={() => !showBtn && setText(CgSmileSad)} />
+              <Smile onClick={() => !showBtn && setText(FaRegSmile)} />
+              <Cry onClick={() => !showBtn && setText(FaRegSadCry)} />
+            </ImojiContainer>
+          )}
+          <Emoji onClick={() => setShowImoji(!showImoji)} />
           <Input
             type="text"
             placeholder="무엇이 궁금하세요?"
@@ -256,12 +270,45 @@ const AnswerBtn = styled.button`
 `;
 
 const Foot = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 68.8px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+`;
+
+const ImojiContainer = styled.div`
+  position: absolute;
+  top: -80px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  height: 70px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+`;
+
+const Smile = styled(FaRegSmile)`
+  font-size: 23px;
+  padding: 5px;
+`;
+const Sad = styled(CgSmileSad)`
+  font-size: 23px;
+  padding: 5px;
+`;
+const Cry = styled(FaRegSadCry)`
+  font-size: 23px;
+  padding: 5px;
+`;
+
+const Emoji = styled(FaRegSmile)`
+  height: 100%;
+  font-size: 32px;
+  margin-left: 20px;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
