@@ -9,6 +9,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
   const [dragRight, setDragRight] = useState(false);
+  const [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
   const history_LS = "searchHistory";
   const date = new Date();
   const currentDate = `${
@@ -25,6 +26,20 @@ const Search = ({ getData, festivals, setFestivals }) => {
     localStorage.setItem(history_LS, JSON.stringify(searchHistory));
   }, [searchHistory]);
 
+  useEffect(() => {
+    if (dragRight) {
+      navigator.geolocation.getCurrentPosition(
+        (data) =>
+          setGeolocation({
+            lat: data.coords.latitude,
+            lon: data.coords.longitude,
+          }),
+        () => alert("위치를 설정해주세요!")
+      );
+    }
+  }, [dragRight]);
+
+  console.log(geolocation);
   const handleSubmit = (e) => {
     e.preventDefault();
     setSimilarList([]);
