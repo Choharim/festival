@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
@@ -11,6 +11,8 @@ const Search = ({ getData, festivals, setFestivals }) => {
   const [dragRight, setDragRight] = useState(false);
   const history_LS = "searchHistory";
   const date = new Date();
+  const inputRef = useRef();
+  const historyRef = useRef();
   const currentDate = `${
     date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
   }.${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
@@ -24,6 +26,17 @@ const Search = ({ getData, festivals, setFestivals }) => {
   useEffect(() => {
     localStorage.setItem(history_LS, JSON.stringify(searchHistory));
   }, [searchHistory]);
+
+  useEffect(() => {
+    window.addEventListener(
+      "keydown",
+      (e) => e.keyCode === 13 && inputRef.current.focus()
+    );
+    return window.removeEventListener(
+      "keydown",
+      (e) => e.keyCode === 13 && inputRef.current.focus()
+    );
+  }, []);
 
   useEffect(() => {
     if (dragRight) {
@@ -178,6 +191,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
           <SearchContainer onSubmit={handleSubmit}>
             <SearchIcon />
             <SearchInput
+              ref={inputRef}
               type="text"
               value={search}
               onChange={handleChange}
@@ -185,12 +199,15 @@ const Search = ({ getData, festivals, setFestivals }) => {
                 search === "" ? setShowHistory(true) : setShowHistory(false)
               }
               onBlur={() => {
-                setShowHistory(false);
+                if (!historyRef) {
+                  setShowHistory(false);
+                  setSimilarList([]);
+                }
               }}
             />
           </SearchContainer>
           {similarList.length !== 0 && (
-            <ListBox>
+            <ListBox ref={historyRef}>
               {similarList.map((each, index) => (
                 <SimilarListInput
                   key={index}
