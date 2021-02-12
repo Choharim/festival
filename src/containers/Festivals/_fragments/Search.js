@@ -16,7 +16,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
   const currentDate = `${
     date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
   }.${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
-
+  //input에 blur이벤트 발생시 history,similar 사라지게 근데 history,similar누르면 inputblur처리 되서 history,similar클릭이 안되고 닫힘
   useEffect(() => {
     if (JSON.parse(localStorage.getItem(history_LS))) {
       setSearchHistory(JSON.parse(localStorage.getItem(history_LS)));
@@ -198,12 +198,6 @@ const Search = ({ getData, festivals, setFestivals }) => {
               onFocus={() =>
                 search === "" ? setShowHistory(true) : setShowHistory(false)
               }
-              onBlur={() => {
-                if (!historyRef) {
-                  setShowHistory(false);
-                  setSimilarList([]);
-                }
-              }}
             />
           </SearchContainer>
           {similarList.length !== 0 && (
