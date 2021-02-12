@@ -67,7 +67,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
       getData();
     }
   }, [dragRight]);
-  console.log(festivals);
+
   const getDistance = (lat1, lon1, lat2, lon2, unit) => {
     if (lat1 === lat2 && lon1 === lon2) {
       return 0;
@@ -184,6 +184,9 @@ const Search = ({ getData, festivals, setFestivals }) => {
               onFocus={() =>
                 search === "" ? setShowHistory(true) : setShowHistory(false)
               }
+              onBlur={() => {
+                setShowHistory(false);
+              }}
             />
           </SearchContainer>
           {similarList.length !== 0 && (
