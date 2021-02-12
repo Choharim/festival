@@ -9,7 +9,6 @@ const Search = ({ getData, festivals, setFestivals }) => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
   const [dragRight, setDragRight] = useState(false);
-  const [geolocation, setGeolocation] = useState({ lat: 0, lon: 0 });
   const history_LS = "searchHistory";
   const date = new Date();
   const currentDate = `${
@@ -28,21 +27,71 @@ const Search = ({ getData, festivals, setFestivals }) => {
 
   useEffect(() => {
     if (dragRight) {
-      navigator.geolocation.getCurrentPosition(
-        (data) =>
-          setGeolocation({
-            lat: data.coords.latitude,
-            lon: data.coords.longitude,
-          }),
-        () => {
-          alert("위치를 설정해주세요!");
-          setDragRight(false);
-        }
-      );
+      const sortFestivals = () => {
+        navigator.geolocation.getCurrentPosition(
+          (data) => {
+            const latitude = data.coords.latitude;
+            const longitude = data.coords.longitude;
+            setFestivals(
+              [
+                ...festivals.map((each) =>
+                  Object.assign(each, {
+                    distance: getDistance(
+                      latitude,
+                      longitude,
+                      each.coords.latitude,
+                      each.coords.longitude,
+                      "K"
+                    ),
+                  })
+                ),
+              ].sort((a, b) => {
+                if (a.distance > b.distance) {
+                  return 1;
+                }
+                if (a.distance < b.distance) {
+                  return -1;
+                }
+                return 0;
+              })
+            );
+          },
+          () => {
+            alert("위치를 설정해주세요!");
+            setDragRight(false);
+          }
+        );
+      };
+      sortFestivals();
+    } else {
+      getData();
     }
   }, [dragRight]);
+  console.log(festivals);
+  const getDistance = (lat1, lon1, lat2, lon2, unit) => {
+    if (lat1 === lat2 && lon1 === lon2) {
+      return 0;
+    } else {
+      const radlat1 = (Math.PI * lat1) / 180;
+      const radlat2 = (Math.PI * lat2) / 180;
+      const theta = lon1 - lon2;
+      const radtheta = (Math.PI * theta) / 180;
+      let dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = (dist * 180) / Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit === "K") {
+        dist = dist * 1.609344;
+      }
+      return dist;
+    }
+  };
 
-  console.log(geolocation);
   const handleSubmit = (e) => {
     e.preventDefault();
     setSimilarList([]);
@@ -117,7 +166,6 @@ const Search = ({ getData, festivals, setFestivals }) => {
     setSimilarList([]);
     setShowHistory(false);
   };
-
   const RemoveSearchHistory = (index) => {
     setSearchHistory(searchHistory.filter((each, i) => i !== index));
   };
@@ -173,7 +221,9 @@ const Search = ({ getData, festivals, setFestivals }) => {
           <DragSwitchText>내 위치</DragSwitchText>
           <DragSwitch
             dragRight={dragRight}
-            onClick={() => setDragRight(!dragRight)}
+            onClick={() => {
+              setDragRight(!dragRight);
+            }}
           >
             <Switch dragPosition={dragRight ? "4px" : "44px"}></Switch>
           </DragSwitch>
