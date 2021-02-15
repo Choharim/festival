@@ -8,6 +8,9 @@ const Agreement = ({ agreement, setAgreement }) => {
 
   const hadleChange = (input) => (e) => {
     if (agreement.length === 4 && input === "all") {
+      setWarningFirst(true);
+      setWarningSecond(true);
+      setWarningThird(true);
       setAgreement([]);
     } else if (input === "all") {
       setAgreement([...Array(4).keys()]);
@@ -18,7 +21,7 @@ const Agreement = ({ agreement, setAgreement }) => {
           setWarningFirst(true);
         } else if (input === 1) {
           setWarningSecond(true);
-        } else {
+        } else if (input === 2) {
           setWarningThird(true);
         }
       } else {

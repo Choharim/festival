@@ -62,13 +62,13 @@ const ChatBot = () => {
   }, [userSuccess]);
 
   useEffect(() => {
-    if (chat.length % 2 === 0 && !showBtn) {
+    if (chat.length % 2 === 0 && chat.length <= 3) {
       window.setTimeout(() => {
         setChat([...chat, { text: "", loading: false }]);
         setBotSuccess(true);
       }, 1500);
     }
-  }, [chat.length]);
+  }, [chat]);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * 7);
@@ -92,15 +92,25 @@ const ChatBot = () => {
   }, [botSuccess]);
 
   const handleChange = (e) => {
-    if (chat.length % 2 === 1) {
-      if (typeof text === String) {
+    if (
+      chat.length % 2 === 1 &&
+      chat.length <= 4 &&
+      typeof text === "string" &&
+      !showBtn
+    ) {
+      if (true) {
         setText(e.target.value);
         setUserSuccess(false);
       }
     }
+
+    if (typeof text === "object") {
+      setText("");
+      setUserSuccess(false);
+    }
   };
   const handleEnter = (input) => {
-    if (!showBtn) {
+    if (true) {
       setChat([...chat, { text: input, loading: false }]);
       setUserSuccess(true);
       setText("");
@@ -151,7 +161,12 @@ const ChatBot = () => {
               >
                 네
               </AnswerBtn>
-              <AnswerBtn onClick={() => handleEnter("아니요")}>
+              <AnswerBtn
+                onClick={() => {
+                  handleEnter("아니요");
+                  setShowBtn(false);
+                }}
+              >
                 아니요
               </AnswerBtn>
             </AnswerBtnWrap>
@@ -160,9 +175,21 @@ const ChatBot = () => {
         <Foot>
           {showImoji && (
             <ImojiContainer>
-              <Sad onClick={() => !showBtn && setText(CgSmileSad)} />
-              <Smile onClick={() => !showBtn && setText(FaRegSmile)} />
-              <Cry onClick={() => !showBtn && setText(FaRegSadCry)} />
+              <Sad
+                onClick={() =>
+                  !showBtn && chat.length <= 3 && setText(CgSmileSad)
+                }
+              />
+              <Smile
+                onClick={() =>
+                  !showBtn && chat.length <= 3 && setText(FaRegSmile)
+                }
+              />
+              <Cry
+                onClick={() =>
+                  !showBtn && chat.length <= 3 && setText(FaRegSadCry)
+                }
+              />
             </ImojiContainer>
           )}
           <Emoji onClick={() => setShowImoji(!showImoji)} />

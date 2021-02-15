@@ -12,7 +12,6 @@ const Search = ({ getData, festivals, setFestivals }) => {
   const history_LS = "searchHistory";
   const date = new Date();
   const inputRef = useRef();
-  const historyRef = useRef();
   const currentDate = `${
     date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
   }.${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
@@ -70,7 +69,6 @@ const Search = ({ getData, festivals, setFestivals }) => {
             );
           },
           () => {
-            alert("위치를 설정해주세요!");
             setDragRight(false);
           }
         );
@@ -201,7 +199,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
             />
           </SearchContainer>
           {similarList.length !== 0 && (
-            <ListBox ref={historyRef}>
+            <ListBox>
               {similarList.map((each, index) => (
                 <SimilarListInput
                   key={index}
