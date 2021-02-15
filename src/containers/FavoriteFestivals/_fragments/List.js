@@ -159,8 +159,9 @@ const Trash = styled(BsTrash)`
 
 const CheckCustom = styled.div`
   background-image: url(${(props) => props.image});
-  background-size: contain;
-  width: 20px;
+  background-size: cover;
+  background-position: center;
+  min-width: 20px;
   height: 20px;
   cursor: pointer;
 `;
@@ -191,7 +192,8 @@ const Img = styled.div`
   height: 90px;
   border-radius: 10px;
   background-image: url(${(props) => props.image});
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
   margin-right: 10px;
 `;
 

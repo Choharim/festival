@@ -3,6 +3,7 @@ import { useObserver } from "mobx-react";
 import FestivalsSlide from "./_fragments/FestivalsSlide";
 import Roulette from "./_fragments/Roulette";
 import { getFestivals } from "components/api/api";
+import ChatBot from "./_fragments/ChatBot";
 
 const Home = () => {
   const [festivalData, setFestivalData] = useState({
@@ -24,6 +25,7 @@ const Home = () => {
         <>
           <Roulette festivals={festivalData.festivals} />
           <FestivalsSlide festivals={festivalData.festivals} />
+          <ChatBot />
         </>
       )}
     </>

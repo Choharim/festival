@@ -56,5 +56,10 @@ export default Map;
 const MapContainer = styled.div`
   width: 100%;
   height: 500px;
+  margin-bottom: 10px;
   border-radius: 10px;
+
+  @media only screen and (max-width: 500px) {
+    height: 300px;
+  }
 `;

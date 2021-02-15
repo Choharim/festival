@@ -38,6 +38,10 @@ const Text = styled.span`
   font-size: 23px;
   font-weight: bolder;
   margin: 40px 0;
+
+  @media only screen and (max-width: 700px) {
+    font-size: 18px;
+  }
 `;
 
 const BtnWrap = styled.div`
@@ -57,4 +61,8 @@ const Btn = styled.button`
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   cursor: pointer;
+
+  @media only screen and (max-width: 700px) {
+    padding: 10px 30px;
+  }
 `;

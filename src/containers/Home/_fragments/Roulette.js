@@ -176,8 +176,9 @@ const DesContainer = styled.div`
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   cursor: pointer;
 
-  @media only screen and (max-width: 900px) {
+  @media only screen and (max-width: 550px) {
     height: 250px;
+    width: 320px;
     margin: 10px 0;
   }
 `;

@@ -222,6 +222,10 @@ const ChatBox = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 50%;
+
+  @media only screen and (max-width: 700px) {
+    width: 100%;
+  }
 `;
 
 const Head = styled.div`

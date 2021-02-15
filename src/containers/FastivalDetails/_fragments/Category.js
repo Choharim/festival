@@ -117,7 +117,8 @@ const CategoryIcon = styled.div`
   height: 20px;
   margin-right: 5px;
   background-image: url(${(props) => props.bg});
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
   pointer-events: none;
   ${(props) =>
     props.category &&
@@ -135,6 +136,9 @@ const CategoryText = styled.span`
       font-weight: bolder;
       color: black;
     `}
+  @media only screen and (max-width: 400px) {
+    font-size: 13px;
+  }
 `;
 
 const InfoContainer = styled.div`

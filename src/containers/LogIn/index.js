@@ -134,6 +134,9 @@ const Wrap = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  @media only screen and (max-width: 700px) {
+    width: 100%;
+  }
 `;
 
 const Logo = styled.span`
@@ -150,8 +153,8 @@ const Form = styled.form`
   justify-content: center;
   width: 400px;
 
-  @media only screen and (max-width: 900px) {
-    //  width: 50%;
+  @media only screen and (max-width: 700px) {
+    width: 100%;
   }
 `;
 
@@ -221,7 +224,7 @@ const KaKaoBtn = styled.button`
     width: 100%;
   }
 
-  @media only screen and (max-width: 900px) {
-    // width: 50%;
+  @media only screen and (max-width: 700px) {
+    width: 100%;
   }
 `;

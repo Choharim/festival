@@ -85,7 +85,14 @@ const Navbar = () => {
           <Url to="/festivals">어디갈까, 축제</Url>
           <Url to="/favorite">가고싶은, 축제</Url>
           {LogInStore.logInSuccess ? (
-            <LogOutBtn onClick={() => setCheckLogOut(true)}>로그아웃</LogOutBtn>
+            <LogOutBtn
+              onClick={() => {
+                setShowNav(false);
+                setCheckLogOut(true);
+              }}
+            >
+              로그아웃
+            </LogOutBtn>
           ) : (
             <Url to="/logIn">로그인</Url>
           )}
@@ -137,7 +144,6 @@ const Logo = styled.span`
 `;
 
 const NavBar = styled(FaBars)`
-  margin-right: 20px;
   cursor: pointer;
 `;
 

@@ -26,7 +26,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
     localStorage.setItem(history_LS, JSON.stringify(searchHistory));
   }, [searchHistory]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     window.addEventListener(
       "keydown",
       (e) => e.keyCode === 13 && inputRef.current.focus()
@@ -35,7 +35,7 @@ const Search = ({ getData, festivals, setFestivals }) => {
       "keydown",
       (e) => e.keyCode === 13 && inputRef.current.focus()
     );
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     if (dragRight) {
@@ -354,6 +354,9 @@ const CloseIcon = styled(AiOutlineClose)`
 const DragSwitchWrap = styled.div`
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 
 const DragSwitchText = styled.span`
